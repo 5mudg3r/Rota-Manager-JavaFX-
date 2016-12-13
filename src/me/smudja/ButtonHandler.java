@@ -44,7 +44,7 @@ public class ButtonHandler implements EventHandler<ActionEvent> {
 		
 		ComboBox<String> cbPeople = new ComboBox<String>(people);
 		
-		cbPeople.setValue("Richard");
+		cbPeople.setValue(people.get(0));
 		
 		Label lblPeople = new Label("Person: ");
 		
@@ -55,11 +55,11 @@ public class ButtonHandler implements EventHandler<ActionEvent> {
 		choiceSep.setVisible(false);
 		rootNode.getChildren().add(choiceSep);
 		
-		ObservableList<String> meals = FXCollections.observableArrayList("Beef Stew", "Burgers", "Tomato Soup");
+		ObservableList<String> meals = FXCollections.observableArrayList("Beef Stew", "Tea & Tablets", "Tomato Soup");
 		
 		ComboBox<String> cbMeals = new ComboBox<String>(meals);
 		
-		cbMeals.setValue("Beef Stew");
+		cbMeals.setValue(meals.get(0));
 		
 		Label lblMeals = new Label("Meal: ");
 		
