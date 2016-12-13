@@ -248,6 +248,12 @@ public class RotaManager extends Application {
 		peopleMenu.getItems().addAll(viewPMI, new SeparatorMenuItem(), addPMI, removePMI, editPMI);
 		
 		mbar.getMenus().add(peopleMenu);
+		
+		Menu shopMenu = new Menu("Shopping List");
+		MenuItem printSMI = new MenuItem("Print");
+		shopMenu.getItems().add(printSMI);
+		
+		mbar.getMenus().add(shopMenu);
 
 		newMI.setOnAction(MEHandler);
 		openMI.setOnAction(MEHandler);
