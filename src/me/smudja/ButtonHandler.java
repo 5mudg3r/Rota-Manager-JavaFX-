@@ -40,7 +40,7 @@ public class ButtonHandler implements EventHandler<ActionEvent> {
 		
 		rootNode.getChildren().addAll(dayLbl, separator1);
 		
-		ObservableList<String> people = FXCollections.observableArrayList("Richard", "Annick", "Louis");
+		ObservableList<String> people = FXCollections.observableArrayList(DataManager.INSTANCE.getPeople());
 		
 		ComboBox<String> cbPeople = new ComboBox<String>(people);
 		
@@ -55,7 +55,7 @@ public class ButtonHandler implements EventHandler<ActionEvent> {
 		choiceSep.setVisible(false);
 		rootNode.getChildren().add(choiceSep);
 		
-		ObservableList<String> meals = FXCollections.observableArrayList("Beef Stew", "Tea & Tablets", "Tomato Soup");
+		ObservableList<String> meals = FXCollections.observableArrayList(DataManager.INSTANCE.getMeals());
 		
 		ComboBox<String> cbMeals = new ComboBox<String>(meals);
 		

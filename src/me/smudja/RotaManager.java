@@ -26,9 +26,15 @@ public class RotaManager extends Application {
 	static Stage primaryStage;
 	private static MenuHandler MEHandler;
 	static ButtonHandler btnHandler;
+	private DataManager dataManager;
 	
 	@Override
 	public void init() {
+		dataManager = DataManager.INSTANCE;
+		for(int i = 0; i < 25; i++) {
+			dataManager.addPerson("Person" + i);
+			dataManager.addMeal("Meal" + i);
+		}
 		MEHandler = new MenuHandler();
 		btnHandler = new ButtonHandler();
 	}
