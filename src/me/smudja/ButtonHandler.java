@@ -18,6 +18,8 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 public class ButtonHandler implements EventHandler<ActionEvent> {
+	
+	ShiftManager sm = ShiftManager.INSTANCE;
 
 	@Override
 	public void handle(ActionEvent event) {
@@ -73,6 +75,16 @@ public class ButtonHandler implements EventHandler<ActionEvent> {
 		Button btnConfirm = new Button("Confirm");
 		
 		btnConfirm.setOnAction( (ae) -> {
+			
+			String[] shiftTime = btnTarget.getId().split(" ");
+			Shift newShift = new Shift(Day.getDay(shiftTime[0]), Period.getPeriod(shiftTime[1]),
+					cbPeople.getValue(), DataManager.INSTANCE.getPhone(cbPeople.getValue()), 
+					cbMeals.getValue(), DataManager.INSTANCE.getIngredients(cbMeals.getValue()));
+			
+			sm.remove(sm.clashes(newShift));
+			sm.add(newShift);
+			
+			sm.printToConsole();
 			
 			FlowPane cellNode = new FlowPane(5,5);
 			GridPane.setHalignment(cellNode, HPos.CENTER);

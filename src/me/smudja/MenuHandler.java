@@ -29,6 +29,7 @@ public class MenuHandler implements EventHandler<ActionEvent> {
 			case "New":	 	RotaManager.rootNode.setTop(RotaManager.createMenuBar());
 						 	RotaManager.rootNode.setCenter(RotaManager.createGridPane());
 						 	RotaManager.primaryStage.show();
+						 	ShiftManager.INSTANCE.purge();
 						 	break;
 			case "View": 	String targetMenuView = ((MenuItem) event.getTarget()).getParentMenu().getText();
 						 	if(targetMenuView.compareTo("People") == 0) {

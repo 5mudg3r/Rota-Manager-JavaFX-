@@ -27,10 +27,12 @@ public class RotaManager extends Application {
 	private static MenuHandler MEHandler;
 	static ButtonHandler btnHandler;
 	private DataManager dataManager;
+	private ShiftManager shiftManager;
 	
 	@Override
 	public void init() {
 		dataManager = DataManager.INSTANCE;
+		shiftManager = ShiftManager.INSTANCE;
 		for(int i = 0; i < 25; i++) {
 			dataManager.addPerson("Person" + i, "0208 " + i);
 			dataManager.addMeal("Meal" + i, new String[]{"Eggs", "Bacon", String.valueOf(i)});
@@ -92,10 +94,10 @@ public class RotaManager extends Application {
 		Text morning = new Text("Morning");
 		gridNode.add(morning, 0, 1);
 		
-		Text lunch = new Text("Lunch");
+		Text lunch = new Text("Afternoon");
 		gridNode.add(lunch, 0, 2);
 		
-		Text dinner = new Text("Dinner");
+		Text dinner = new Text("Evening");
 		gridNode.add(dinner, 0, 3);
 		
 		Button btnShift11 = new Button("New Shift");
@@ -120,46 +122,46 @@ public class RotaManager extends Application {
 		btnShift71.setId("Sunday Morning");
 		gridNode.add(btnShift71, 7, 1);
 		Button btnShift12 = new Button("New Shift");
-		btnShift12.setId("Monday Lunch");
+		btnShift12.setId("Monday Afternoon");
 		gridNode.add(btnShift12, 1, 2);
 		Button btnShift22 = new Button("New Shift");
-		btnShift22.setId("Tuesday Lunch");
+		btnShift22.setId("Tuesday Afternoon");
 		gridNode.add(btnShift22, 2, 2);
 		Button btnShift32 = new Button("New Shift");
-		btnShift32.setId("Wednesday Lunch");
+		btnShift32.setId("Wednesday Afternoon");
 		gridNode.add(btnShift32, 3, 2);
 		Button btnShift42 = new Button("New Shift");
-		btnShift42.setId("Thursday Lunch");
+		btnShift42.setId("Thursday Afternoon");
 		gridNode.add(btnShift42, 4, 2);
 		Button btnShift52 = new Button("New Shift");
-		btnShift52.setId("Friday Lunch");
+		btnShift52.setId("Friday Afternoon");
 		gridNode.add(btnShift52, 5, 2);
 		Button btnShift62 = new Button("New Shift");
-		btnShift62.setId("Saturday Lunch");
+		btnShift62.setId("Saturday Afternoon");
 		gridNode.add(btnShift62, 6, 2);
 		Button btnShift72 = new Button("New Shift");
-		btnShift72.setId("Sunday Lunch");
+		btnShift72.setId("Sunday Afternoon");
 		gridNode.add(btnShift72, 7, 2);
 		Button btnShift13 = new Button("New Shift");
-		btnShift13.setId("Monday Dinner");
+		btnShift13.setId("Monday Evening");
 		gridNode.add(btnShift13, 1, 3);
 		Button btnShift23 = new Button("New Shift");
-		btnShift23.setId("Tuesday Dinner");
+		btnShift23.setId("Tuesday Evening");
 		gridNode.add(btnShift23, 2, 3);
 		Button btnShift33 = new Button("New Shift");
-		btnShift33.setId("Wednesday Dinner");
+		btnShift33.setId("Wednesday Evening");
 		gridNode.add(btnShift33, 3, 3);
 		Button btnShift43 = new Button("New Shift");
-		btnShift43.setId("Thursday Dinner");
+		btnShift43.setId("Thursday Evening");
 		gridNode.add(btnShift43, 4, 3);
 		Button btnShift53 = new Button("New Shift");
-		btnShift53.setId("Friday Dinner");
+		btnShift53.setId("Friday Evening");
 		gridNode.add(btnShift53, 5, 3);
 		Button btnShift63 = new Button("New Shift");
-		btnShift63.setId("Saturday Dinner");
+		btnShift63.setId("Saturday Evening");
 		gridNode.add(btnShift63, 6, 3);
 		Button btnShift73 = new Button("New Shift");
-		btnShift73.setId("Sunday Dinner");
+		btnShift73.setId("Sunday Evening");
 		gridNode.add(btnShift73, 7, 3);
 		
 		btnShift11.setOnAction(btnHandler);
