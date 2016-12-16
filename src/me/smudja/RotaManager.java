@@ -32,8 +32,8 @@ public class RotaManager extends Application {
 	public void init() {
 		dataManager = DataManager.INSTANCE;
 		for(int i = 0; i < 25; i++) {
-			dataManager.addPerson("Person" + i);
-			dataManager.addMeal("Meal" + i);
+			dataManager.addPerson("Person" + i, "0208 " + i);
+			dataManager.addMeal("Meal" + i, new String[]{"Eggs", "Bacon", String.valueOf(i)});
 		}
 		MEHandler = new MenuHandler();
 		btnHandler = new ButtonHandler();
