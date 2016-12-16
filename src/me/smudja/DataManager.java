@@ -1,65 +1,70 @@
 package me.smudja;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 enum DataManager {
 	
 	INSTANCE;
 	
-	private ArrayList<String> people;
-	private ArrayList<String> meals;
+	private HashMap<String, String> people;
+	private HashMap<String, String[]> meals;
 	
 	private DataManager() {
-		people = load("people.txt");
-		meals = load("meals.txt");
+		people = loadPeople("people.txt");
+		meals = loadMeals("meals.txt");
 	}
-	private ArrayList<String> load(String fileName) {
+	private HashMap<String, String> loadPeople(String fileName) {
 		// TODO load from file
-		return new ArrayList<String>();
+		return new HashMap<String, String>();
+	}
+	private HashMap<String, String[]> loadMeals(String fileName) {
+		// TODO load from file
+		return new HashMap<String, String[]>();
 	}
 
 	public void save() {
 		// TODO save to file
 	}
 	
-	public void addPerson(String person) {
-		if(people.contains(person)) return;
-		people.add(person);
+	public void addPerson(String person, String phone) {
+		if(people.containsKey(person)) return;
+		people.put(person, phone);
 	}
 	
 	public void removePerson(String person) {
-		if(people.contains(person)) people.remove(person);
+		if(people.containsKey(person)) people.remove(person);
 	}
 	
-	public String getPerson(String person) {
-		if(people.contains(person)) return person;
+	public String getPhone(String person) {
+		if(people.containsKey(person)) return people.get(person);
 		return null;
 	}
 	
 	public String[] getPeople() {
 		String[] strArrPeople = new String[people.size()];
-		return strArrPeople = people.toArray(strArrPeople);
+		strArrPeople = people.keySet().toArray(strArrPeople);
+		return strArrPeople;
 	}
 	
-	public void addMeal(String meal) {
-		if(meals.contains(meal)) return;
-		meals.add(meal);
+	public void addMeal(String meal, String[] ingreds) {
+		if(meals.containsKey(meal)) return;
+		meals.put(meal, ingreds);
 	}
 	
 	public void removeMeal(String meal) {
-		if(meals.contains(meal)) {
+		if(meals.containsKey(meal)) {
 			meals.remove(meal);
 		}
 	}
 	
-	public String getMeal(String meal) {
-		if(meals.contains(meal)) return meal;
+	public String[] getIngredients(String meal) {
+		if(meals.containsKey(meal)) return meals.get(meal);
 		return null;
 	}
 	
 	public String[] getMeals() {
 		String[] strArrMeals = new String[meals.size()];
-		return strArrMeals = meals.toArray(strArrMeals);
+		return strArrMeals = meals.keySet().toArray(strArrMeals);
 	}
 
 }

@@ -13,6 +13,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
 
@@ -98,7 +99,7 @@ public class MenuHandler implements EventHandler<ActionEvent> {
 		
 		removeStage.show();
 	}
-
+	
 	private void showAddStage(String type) {
 		Stage addStage = new Stage();
 		
@@ -122,20 +123,47 @@ public class MenuHandler implements EventHandler<ActionEvent> {
 		TextField tfName = new TextField();
 		tfName.setPrefWidth(250);
 		
+		Separator fieldSep = new Separator();
+		fieldSep.setPrefWidth(30);
+		fieldSep.setVisible(false);
+		
+		Separator btnSep = new Separator();
+		btnSep.setPrefWidth(15);
+		btnSep.setVisible(false);
+		
+		Label lblValue;
+		
+		TextField tfValue = new TextField();
+		tfValue.setPrefWidth(250);
+		
+		if(type.compareTo("Person") == 0) {
+			lblValue = new Label("Phone");
+		}
+		else {
+			lblValue = new Label("Ingredients");
+			tfValue.setTooltip(new Tooltip("Separate ingredients with a comma (,)"));
+			tfValue.setPromptText("Separate ingredients by a comma");
+		}	
+		
 		Button btnAdd = new Button("Add " + type);
 		
 		btnAdd.setOnAction( (ae) -> {
 			String strName = tfName.getText();
+			String strValue = tfValue.getText();
 			if(type.compareTo("Person") == 0) {
-				DataManager.INSTANCE.addPerson(strName);
+				DataManager.INSTANCE.addPerson(strName, strValue);
 			}
 			else {
-				DataManager.INSTANCE.addMeal(strName);
-			}
+				String[] ingreds = strValue.split(",");
+				for (int i = 0; i < ingreds.length; i++) {
+				    ingreds[i] = ingreds[i].trim();
+				}
+				DataManager.INSTANCE.addMeal(strName, ingreds);
+			}		
 			addStage.close();
 		});
 		
-		rootNode.getChildren().addAll(lblName, tfName, btnAdd);
+		rootNode.getChildren().addAll(lblName, tfName, fieldSep, lblValue, tfValue, btnSep, btnAdd);
 		
 		addStage.show();
 	}
