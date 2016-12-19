@@ -19,6 +19,12 @@ import javafx.stage.Stage;
 
 public class MenuHandler implements EventHandler<ActionEvent> {
 	
+	ShiftManager shiftManager;
+	
+	public MenuHandler() {
+		shiftManager = ShiftManager.INSTANCE;
+	}
+	
 	@Override
 	public void handle(ActionEvent event) {
 		String name = ((MenuItem)event.getTarget()).getText();
@@ -29,7 +35,7 @@ public class MenuHandler implements EventHandler<ActionEvent> {
 			case "New":	 	RotaManager.rootNode.setTop(RotaManager.createMenuBar());
 						 	RotaManager.rootNode.setCenter(RotaManager.createGridPane());
 						 	RotaManager.primaryStage.show();
-						 	ShiftManager.INSTANCE.purge();
+						 	shiftManager.purge();
 						 	break;
 			case "View": 	String targetMenuView = ((MenuItem) event.getTarget()).getParentMenu().getText();
 						 	if(targetMenuView.compareTo("People") == 0) {
@@ -55,8 +61,62 @@ public class MenuHandler implements EventHandler<ActionEvent> {
 		 						showRemoveStage("Meals", DataManager.INSTANCE.getMeals());
 		 					}
 		 					break;
+			case "Open":	showFileStage("Open");
+							break;
+			case "Save":	showFileStage("Save");
 			default:	 	break;
 		}
+	}
+
+	private void showFileStage(String type) {
+		Stage fileStage = new Stage();
+		
+		fileStage.setTitle(type + " Shift Configuration");
+		
+		FlowPane rootNode = new FlowPane(25,25);
+		
+		rootNode.setAlignment(Pos.CENTER);
+		
+		fileStage.setScene(new Scene(rootNode, 450, 200));
+		
+		Label lblType = new Label(type);
+		
+		Separator separator = new Separator();
+		separator.setPrefWidth(400);
+		
+		rootNode.getChildren().addAll(lblType, separator);
+		
+		Label lblName = new Label("Shift Name");
+		
+		TextField tfName = new TextField();
+		tfName.setPrefWidth(300);
+		
+		Separator separator2 = new Separator();
+		separator2.setPrefWidth(400);
+		separator2.setVisible(false);
+		
+		Button btnType = new Button(type);
+		
+		btnType.setOnAction( (ae) -> {
+			String strName = tfName.getText();
+			
+			if(type.compareTo("Open") == 0) {
+				RotaManager.rootNode.setCenter(RotaManager.createGridPane());
+				shiftManager.purge();
+				shiftManager.load(strName);
+				for(Shift s : shiftManager.getShifts()) {
+					RotaManager.addShift(s, null);
+				}
+			}
+			else {
+				shiftManager.save(strName);
+			}		
+			fileStage.close();
+		});
+		
+		rootNode.getChildren().addAll(lblName, tfName, separator2, btnType);
+		
+		fileStage.show();
 	}
 
 	private void showRemoveStage(String type, String[] items) {

@@ -1,7 +1,17 @@
 package me.smudja;
 
 public enum Day {
-	MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY;
+	MONDAY(1), TUESDAY(2), WEDNESDAY(3), THURSDAY(4), FRIDAY(5), SATURDAY(6), SUNDAY(7);
+	
+	private int loc;
+	
+	private Day(int loc) {
+		this.loc = loc;
+	}
+	
+	public int getLoc() {
+		return loc;
+	}
 	
 	public static Day getDay(String strDay) {
 		switch(strDay.toUpperCase()) {

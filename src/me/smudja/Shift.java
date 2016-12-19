@@ -1,7 +1,13 @@
 package me.smudja;
 
-public class Shift {
+import java.io.Serializable;
+
+public class Shift implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Day day;
 	private Period period;
 	private String personName;
@@ -16,6 +22,14 @@ public class Shift {
 		this.personPhone = personPhone;
 		this.mealName = mealName;
 		this.mealIngreds = mealIngreds;
+	}
+	
+	public String getPerson() {
+		return personName;
+	}
+	
+	public String getMeal() {
+		return mealName;
 	}
 	
 	public Day getDay() {

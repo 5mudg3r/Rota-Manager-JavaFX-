@@ -4,17 +4,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.HPos;
 import javafx.geometry.Pos;
-import javafx.geometry.VPos;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 public class ButtonHandler implements EventHandler<ActionEvent> {
@@ -81,42 +77,10 @@ public class ButtonHandler implements EventHandler<ActionEvent> {
 					cbPeople.getValue(), DataManager.INSTANCE.getPhone(cbPeople.getValue()), 
 					cbMeals.getValue(), DataManager.INSTANCE.getIngredients(cbMeals.getValue()));
 			
+			RotaManager.addShift(newShift, btnTarget);
+			
 			sm.remove(sm.clashes(newShift));
 			sm.add(newShift);
-			
-			sm.printToConsole();
-			
-			FlowPane cellNode = new FlowPane(5,5);
-			GridPane.setHalignment(cellNode, HPos.CENTER);
-			GridPane.setValignment(cellNode, VPos.CENTER);
-			cellNode.setAlignment(Pos.CENTER);
-			
-			Label personLbl = new Label(cbPeople.getValue());
-			Label mealLbl = new Label(cbMeals.getValue());
-			Separator lblSep = new Separator();
-			lblSep.setPrefWidth(150);
-			lblSep.setVisible(false);
-			Separator btnSep = new Separator();
-			btnSep.setPrefWidth(150);
-			Button btnEdit = new Button("Edit");
-			
-			btnEdit.setId(btnTarget.getId());
-			btnEdit.setOnAction(RotaManager.btnHandler);
-			
-			cellNode.getChildren().addAll(personLbl, lblSep, mealLbl, btnSep, btnEdit);
-			
-			for(Node n:RotaManager.rootNode.getChildren()) {
-				if(n instanceof GridPane) {				
-					if(btnTarget.getParent() instanceof FlowPane) {
-						((GridPane) n).add(cellNode, GridPane.getColumnIndex(btnTarget.getParent()), GridPane.getRowIndex(btnTarget.getParent()));
-						((GridPane) n).getChildren().remove(btnTarget.getParent());
-					}
-					else {
-						((GridPane) n).add(cellNode, GridPane.getColumnIndex(btnTarget), GridPane.getRowIndex(btnTarget));
-						((GridPane) n).getChildren().remove(btnTarget);
-					}
-				}
-			}
 			
 			shiftStage.close();
 		});

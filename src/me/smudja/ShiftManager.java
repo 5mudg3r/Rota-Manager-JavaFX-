@@ -1,5 +1,10 @@
 package me.smudja;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 enum ShiftManager {
@@ -12,13 +17,23 @@ enum ShiftManager {
 		shifts = new ArrayList<Shift>();
 	}
 
-	public ArrayList<Shift> load(String fromFile) {
-		// TODO load shifts from file
-		return new ArrayList<Shift>();
+	@SuppressWarnings("unchecked")
+	public void load(String fromFile) {
+		try (ObjectInputStream inStream = new ObjectInputStream(new FileInputStream(fromFile))) {
+			this.shifts = (ArrayList<Shift>) inStream.readObject();
+		}
+		catch (Exception exc) {
+			System.out.println("Unable to load from file: " + fromFile);
+		}
 	}
 	
 	public void save(String toFile) {
-		// TODO save shifts to file
+		try (ObjectOutputStream outStream = new ObjectOutputStream(new FileOutputStream(toFile))) {
+			outStream.writeObject(shifts);
+		}
+		catch (IOException exc) {
+			System.out.println("Unable to save to file: " + toFile);
+		}
 	}
 	
 	public void purge() {
