@@ -42,7 +42,9 @@ public class ButtonHandler implements EventHandler<ActionEvent> {
 		
 		ComboBox<String> cbPeople = new ComboBox<String>(people);
 		
+		if(!people.isEmpty()) {
 		cbPeople.setValue(people.get(0));
+		}
 		
 		Label lblPeople = new Label("Person: ");
 		
@@ -57,7 +59,9 @@ public class ButtonHandler implements EventHandler<ActionEvent> {
 		
 		ComboBox<String> cbMeals = new ComboBox<String>(meals);
 		
-		cbMeals.setValue(meals.get(0));
+		if(!meals.isEmpty()) {
+			cbMeals.setValue(meals.get(0));
+		}
 		
 		Label lblMeals = new Label("Meal: ");
 		
