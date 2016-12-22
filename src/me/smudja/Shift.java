@@ -40,6 +40,10 @@ public class Shift implements Serializable {
 		return period;
 	}
 	
+	public String[] getIngredients() {
+		return mealIngreds;
+	}
+	
 	public void printToConsole() {
 		System.out.println("Day: " + day.toString());
 		System.out.println("Period: " + period.toString());

@@ -29,7 +29,7 @@ public class ButtonHandler implements EventHandler<ActionEvent> {
 		
 		rootNode.setAlignment(Pos.CENTER);
 		
-		shiftStage.setScene(new Scene(rootNode, 450, 250));
+		shiftStage.setScene(new Scene(rootNode, 450, 300));
 		
 		Label dayLbl = new Label(btnTarget.getId());
 		
@@ -46,7 +46,12 @@ public class ButtonHandler implements EventHandler<ActionEvent> {
 		cbPeople.setValue(people.get(0));
 		}
 		
+		cbPeople.setPrefWidth(250);
+		cbPeople.setMaxWidth(375);
+		
 		Label lblPeople = new Label("Person: ");
+		lblPeople.setPrefWidth(100);
+		lblPeople.setAlignment(Pos.CENTER);
 		
 		rootNode.getChildren().addAll(lblPeople, cbPeople);
 		
@@ -58,7 +63,12 @@ public class ButtonHandler implements EventHandler<ActionEvent> {
 			cbMeals.setValue(meals.get(0));
 		}
 		
+		cbMeals.setPrefWidth(250);
+		cbMeals.setMaxWidth(375);
+		
 		Label lblMeals = new Label("Meal: ");
+		lblMeals.setPrefWidth(100);
+		lblMeals.setAlignment(Pos.CENTER);
 		
 		rootNode.getChildren().addAll(lblMeals, cbMeals);
 		

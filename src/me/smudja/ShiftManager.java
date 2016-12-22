@@ -70,4 +70,15 @@ enum ShiftManager {
 		}
 	}
 	
+	public String[] getWeeksIngredients() {
+		ArrayList<String> aryIngreds = new ArrayList<String>();
+		for(Shift shift: shifts) {
+			for(String ingred: shift.getIngredients()) {
+				aryIngreds.add(ingred);
+			}
+		}
+		String[] ingreds = new String[aryIngreds.size()];
+		return ingreds = aryIngreds.toArray(ingreds);
+	}
+	
 }

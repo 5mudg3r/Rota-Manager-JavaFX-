@@ -95,16 +95,16 @@ enum DataManager {
 		return null;
 	}
 	
-	public String[] getAllIngredients() {
-		ArrayList<String> aryIngreds = new ArrayList<String>();
-		for(String[] mealIngreds: meals.values()) {
-			for(String ingred: mealIngreds) {
-				aryIngreds.add(ingred);
-			}
-		}
-		String[] ingreds = new String[aryIngreds.size()];
-		return ingreds = aryIngreds.toArray(ingreds);
-	}
+//	public String[] getAllIngredients() {
+//		ArrayList<String> aryIngreds = new ArrayList<String>();
+//		for(String[] mealIngreds: meals.values()) {
+//			for(String ingred: mealIngreds) {
+//				aryIngreds.add(ingred);
+//			}
+//		}
+//		String[] ingreds = new String[aryIngreds.size()];
+//		return ingreds = aryIngreds.toArray(ingreds);
+//	}
 	
 	public String[] getMeals() {
 		String[] strArrMeals = new String[meals.size()];

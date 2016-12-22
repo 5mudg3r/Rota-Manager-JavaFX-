@@ -20,6 +20,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 public class RotaManager extends Application {
@@ -289,9 +290,12 @@ public class RotaManager extends Application {
 		
 		Label personLbl = new Label(shift.getPerson());
 		Label mealLbl = new Label(shift.getMeal());
-		Separator lblSep = new Separator();
-		lblSep.setPrefWidth(150);
-		lblSep.setVisible(false);
+		personLbl.setPrefWidth(150);
+		mealLbl.setPrefWidth(150);
+		personLbl.setMaxWidth(200);
+		mealLbl.setMaxWidth(200);
+		personLbl.setAlignment(Pos.CENTER);
+		mealLbl.setAlignment(Pos.CENTER);
 		Separator btnSep = new Separator();
 		btnSep.setPrefWidth(150);
 		Button btnEdit = new Button("Edit");
@@ -299,7 +303,7 @@ public class RotaManager extends Application {
 		btnEdit.setId(shift.getDay().toString() + " " + shift.getPeriod().toString());
 		btnEdit.setOnAction(RotaManager.btnHandler);
 		
-		cellNode.getChildren().addAll(personLbl, lblSep, mealLbl, btnSep, btnEdit);
+		cellNode.getChildren().addAll(personLbl, mealLbl, btnSep, btnEdit);
 		
 		for(Node n:RotaManager.rootNode.getChildren()) {
 			if(n instanceof GridPane) {

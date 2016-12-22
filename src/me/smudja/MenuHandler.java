@@ -72,7 +72,7 @@ public class MenuHandler implements EventHandler<ActionEvent> {
 							}
 							break;
 			case "Print":	if(targetMenu.compareTo("Shopping List") == 0) {
-								new PrintListHandler(DataManager.INSTANCE.getAllIngredients());
+								new PrintListHandler(ShiftManager.INSTANCE.getWeeksIngredients());
 							}
 							else {
 								new PrintRotaHandler();
@@ -92,12 +92,12 @@ public class MenuHandler implements EventHandler<ActionEvent> {
 		
 		rootNode.setAlignment(Pos.CENTER);
 		
-		editStage.setScene(new Scene(rootNode, 250, 550));
+		editStage.setScene(new Scene(rootNode, 300, 550));
 		
 		Label lblType = new Label(type);
 		
 		Separator separator = new Separator();
-		separator.setPrefWidth(230);
+		separator.setPrefWidth(280);
 		
 		rootNode.getChildren().addAll(lblType, separator);
 		
@@ -105,7 +105,7 @@ public class MenuHandler implements EventHandler<ActionEvent> {
 		
 		ListView<String> lvItems = new ListView<String>(itemsList);
 		
-		lvItems.setPrefWidth(200);
+		lvItems.setPrefWidth(250);
 		lvItems.setPrefHeight(375);
 		
 		Button btnEdit = new Button("Edit");
@@ -266,12 +266,12 @@ public class MenuHandler implements EventHandler<ActionEvent> {
 		
 		rootNode.setAlignment(Pos.CENTER);
 		
-		removeStage.setScene(new Scene(rootNode, 250, 550));
+		removeStage.setScene(new Scene(rootNode, 300, 550));
 		
 		Label lblType = new Label(type);
 		
 		Separator separator = new Separator();
-		separator.setPrefWidth(230);
+		separator.setPrefWidth(280);
 		
 		rootNode.getChildren().addAll(lblType, separator);
 		
@@ -279,7 +279,7 @@ public class MenuHandler implements EventHandler<ActionEvent> {
 		
 		ListView<String> lvItems = new ListView<String>(itemsList);
 		
-		lvItems.setPrefWidth(200);
+		lvItems.setPrefWidth(250);
 		lvItems.setPrefHeight(375);
 		
 		Button btnRemove = new Button("Remove");
@@ -376,12 +376,12 @@ public class MenuHandler implements EventHandler<ActionEvent> {
 		
 		rootNode.setAlignment(Pos.CENTER);
 		
-		viewStage.setScene(new Scene(rootNode, 250, 550));
+		viewStage.setScene(new Scene(rootNode, 300, 550));
 		
 		Label lblType = new Label(type);
 		
 		Separator separator = new Separator();
-		separator.setPrefWidth(230);
+		separator.setPrefWidth(280);
 		
 		rootNode.getChildren().addAll(lblType, separator);
 		
@@ -389,7 +389,7 @@ public class MenuHandler implements EventHandler<ActionEvent> {
 		
 		ListView<String> lvItems = new ListView<String>(itemsList);
 		
-		lvItems.setPrefWidth(200);
+		lvItems.setPrefWidth(250);
 		lvItems.setPrefHeight(375);
 		
 		lvItems.setFocusTraversable( false );
