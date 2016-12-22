@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 enum DataManager {
@@ -92,6 +93,17 @@ enum DataManager {
 	public String[] getIngredients(String meal) {
 		if(meals.containsKey(meal)) return meals.get(meal);
 		return null;
+	}
+	
+	public String[] getAllIngredients() {
+		ArrayList<String> aryIngreds = new ArrayList<String>();
+		for(String[] mealIngreds: meals.values()) {
+			for(String ingred: mealIngreds) {
+				aryIngreds.add(ingred);
+			}
+		}
+		String[] ingreds = new String[aryIngreds.size()];
+		return ingreds = aryIngreds.toArray(ingreds);
 	}
 	
 	public String[] getMeals() {

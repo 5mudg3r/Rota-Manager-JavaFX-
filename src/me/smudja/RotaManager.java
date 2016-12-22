@@ -275,6 +275,7 @@ public class RotaManager extends Application {
 		addPMI.setOnAction(MEHandler);
 		removePMI.setOnAction(MEHandler);
 		editPMI.setOnAction(MEHandler);
+		printSMI.setOnAction(MEHandler);
 		
 		return mbar;
 	}

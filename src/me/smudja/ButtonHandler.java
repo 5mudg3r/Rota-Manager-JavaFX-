@@ -50,11 +50,6 @@ public class ButtonHandler implements EventHandler<ActionEvent> {
 		
 		rootNode.getChildren().addAll(lblPeople, cbPeople);
 		
-		Separator choiceSep = new Separator();
-		choiceSep.setPrefWidth(25);
-		choiceSep.setVisible(false);
-		rootNode.getChildren().add(choiceSep);
-		
 		ObservableList<String> meals = FXCollections.observableArrayList(DataManager.INSTANCE.getMeals());
 		
 		ComboBox<String> cbMeals = new ComboBox<String>(meals);

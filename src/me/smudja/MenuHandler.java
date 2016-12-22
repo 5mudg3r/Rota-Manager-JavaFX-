@@ -30,6 +30,7 @@ public class MenuHandler implements EventHandler<ActionEvent> {
 	@Override
 	public void handle(ActionEvent event) {
 		String name = ((MenuItem)event.getTarget()).getText();
+		String targetMenu = ((MenuItem) event.getTarget()).getParentMenu().getText();
 		
 		switch(name) {
 			case "Exit": 	Platform.exit();
@@ -39,24 +40,21 @@ public class MenuHandler implements EventHandler<ActionEvent> {
 						 	RotaManager.primaryStage.show();
 						 	shiftManager.purge();
 						 	break;
-			case "View": 	String targetMenuView = ((MenuItem) event.getTarget()).getParentMenu().getText();
-						 	if(targetMenuView.compareTo("People") == 0) {
+			case "View": 	if(targetMenu.compareTo("People") == 0) {
 						 		showViewStage("People", DataManager.INSTANCE.getPeople());
 						 	}
 						 	else {
 						 		showViewStage("Meals", DataManager.INSTANCE.getMeals());
 						 	}
 						 	break;
-			case "Add":  	String targetMenuAdd = ((MenuItem) event.getTarget()).getParentMenu().getText();
-			 			 	if(targetMenuAdd.compareTo("People") == 0) {
+			case "Add":  	if(targetMenu.compareTo("People") == 0) {
 			 			 		showAddStage("Person");
 			 			 	}
 			 			 	else {
 			 			 		showAddStage("Meal");
 			 			 	}
 			 			 	break;
-			case "Remove":	String targetMenuRemove = ((MenuItem) event.getTarget()).getParentMenu().getText();
-		 					if(targetMenuRemove.compareTo("People") == 0) {
+			case "Remove":	if(targetMenu.compareTo("People") == 0) {
 		 						showRemoveStage("People", DataManager.INSTANCE.getPeople());
 		 					}
 		 					else {
@@ -66,15 +64,22 @@ public class MenuHandler implements EventHandler<ActionEvent> {
 			case "Open":	showFileStage("Open");
 							break;
 			case "Save":	showFileStage("Save");
-			case "Edit":	String targetMenuEdit = ((MenuItem) event.getTarget()).getParentMenu().getText();
-							if(targetMenuEdit.compareTo("People") == 0) {
+			case "Edit":	if(targetMenu.compareTo("People") == 0) {
 								showEditStage("Person", DataManager.INSTANCE.getPeople());
 							}
 							else {
 								showEditStage("Meal", DataManager.INSTANCE.getMeals());
 							}
 							break;
-			default:	 	break;
+			case "Print":	if(targetMenu.compareTo("Shopping List") == 0) {
+								new PrintListHandler(DataManager.INSTANCE.getAllIngredients());
+							}
+							else {
+								new PrintRotaHandler();
+							}
+							break;
+			default:	 	System.out.println("Menu Item Not Recognised");
+							break;
 		}
 	}
 
