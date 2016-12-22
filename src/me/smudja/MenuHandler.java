@@ -1,5 +1,7 @@
 package me.smudja;
 
+import java.util.Arrays;
+
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -64,8 +66,139 @@ public class MenuHandler implements EventHandler<ActionEvent> {
 			case "Open":	showFileStage("Open");
 							break;
 			case "Save":	showFileStage("Save");
+			case "Edit":	String targetMenuEdit = ((MenuItem) event.getTarget()).getParentMenu().getText();
+							if(targetMenuEdit.compareTo("People") == 0) {
+								showEditStage("Person", DataManager.INSTANCE.getPeople());
+							}
+							else {
+								showEditStage("Meal", DataManager.INSTANCE.getMeals());
+							}
+							break;
 			default:	 	break;
 		}
+	}
+
+	private void showEditStage(String type, String[] items) {
+		Stage editStage = new Stage();
+		
+		editStage.setTitle("Edit " + type);
+		
+		FlowPane rootNode = new FlowPane(20,20);
+		
+		rootNode.setAlignment(Pos.CENTER);
+		
+		editStage.setScene(new Scene(rootNode, 250, 550));
+		
+		Label lblType = new Label(type);
+		
+		Separator separator = new Separator();
+		separator.setPrefWidth(230);
+		
+		rootNode.getChildren().addAll(lblType, separator);
+		
+		ObservableList<String> itemsList = FXCollections.observableArrayList(items);
+		
+		ListView<String> lvItems = new ListView<String>(itemsList);
+		
+		lvItems.setPrefWidth(200);
+		lvItems.setPrefHeight(375);
+		
+		Button btnEdit = new Button("Edit");
+		btnEdit.setOnAction( (ae) -> {
+			String strRemove = lvItems.getSelectionModel().getSelectedItem();
+			
+			editStage.close();
+			
+			showEditSubStage(type, strRemove);
+		});
+		
+		rootNode.getChildren().addAll(lvItems, btnEdit);
+		
+		editStage.show();
+	}
+
+	private void showEditSubStage(String type, String strRemove) {
+		Stage editSubStage = new Stage();
+		
+		editSubStage.setTitle("Edit " + type);
+		
+		FlowPane rootNode = new FlowPane(20,20);
+		
+		rootNode.setAlignment(Pos.CENTER);
+		
+		editSubStage.setScene(new Scene(rootNode, 400, 250));
+		
+		Label lblType = new Label("Edit " + type);
+		
+		Separator separator = new Separator();
+		separator.setPrefWidth(375);
+		
+		rootNode.getChildren().addAll(lblType, separator);
+		
+		Label lblName = new Label("Name");
+		
+		TextField tfName = new TextField();
+		tfName.setPrefWidth(250);
+		tfName.setText(strRemove);
+		
+		Separator fieldSep = new Separator();
+		fieldSep.setPrefWidth(30);
+		fieldSep.setVisible(false);
+		
+		Separator btnSep = new Separator();
+		btnSep.setPrefWidth(15);
+		btnSep.setVisible(false);
+		
+		Label lblValue;
+		
+		TextField tfValue = new TextField();
+		tfValue.setPrefWidth(250);
+		
+		if(type.compareTo("Person") == 0) {
+			lblValue = new Label("Phone");
+			tfValue.setText(DataManager.INSTANCE.getPhone(strRemove));
+		}
+		else {
+			lblValue = new Label("Ingredients");
+			tfValue.setTooltip(new Tooltip("Separate ingredients with a comma (,)"));
+			tfValue.setPromptText("Separate ingredients by a comma");
+			tfValue.setText(String.join(", ", DataManager.INSTANCE.getIngredients(strRemove)));
+		}	
+		
+		Button btnEdit = new Button("Edit " + type);
+		
+		btnEdit.setOnAction( (ae) -> {
+			String strName = tfName.getText();
+			String strValue = tfValue.getText();
+			
+			String[] response;
+			
+			if(type.compareTo("Person") == 0) {
+				response = new String[]{strName, strValue};
+			}
+			else {
+				String[] ingreds = strValue.split(",");
+				response = new String[ingreds.length + 1];
+				response[0] = strName;
+				for (int j = 0; j < ingreds.length; j++) {
+				    response[j+1] = ingreds[j].trim();
+				}
+			}
+			if(type.compareTo("Person") == 0) {
+				DataManager.INSTANCE.removePerson(strRemove);
+				DataManager.INSTANCE.addPerson(response[0], response[1]);
+			}
+			else {
+				DataManager.INSTANCE.removeMeal(strRemove);
+				DataManager.INSTANCE.addMeal(response[0], Arrays.copyOfRange(response, 1, response.length));
+			}
+			editSubStage.close();
+		});
+		
+		rootNode.getChildren().addAll(lblName, tfName, fieldSep, lblValue, tfValue, btnSep, btnEdit);
+		
+		editSubStage.show();
+		
 	}
 
 	private void showFileStage(String type) {
