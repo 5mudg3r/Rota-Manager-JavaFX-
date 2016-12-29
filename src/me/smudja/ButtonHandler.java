@@ -4,20 +4,18 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.HPos;
 import javafx.geometry.Pos;
-import javafx.geometry.VPos;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 public class ButtonHandler implements EventHandler<ActionEvent> {
+	
+	ShiftManager sm = ShiftManager.INSTANCE;
 
 	@Override
 	public void handle(ActionEvent event) {
@@ -31,7 +29,7 @@ public class ButtonHandler implements EventHandler<ActionEvent> {
 		
 		rootNode.setAlignment(Pos.CENTER);
 		
-		shiftStage.setScene(new Scene(rootNode, 450, 250));
+		shiftStage.setScene(new Scene(rootNode, 450, 300));
 		
 		Label dayLbl = new Label(btnTarget.getId());
 		
@@ -44,24 +42,33 @@ public class ButtonHandler implements EventHandler<ActionEvent> {
 		
 		ComboBox<String> cbPeople = new ComboBox<String>(people);
 		
+		if(!people.isEmpty()) {
 		cbPeople.setValue(people.get(0));
+		}
+		
+		cbPeople.setPrefWidth(250);
+		cbPeople.setMaxWidth(375);
 		
 		Label lblPeople = new Label("Person: ");
+		lblPeople.setPrefWidth(100);
+		lblPeople.setAlignment(Pos.CENTER);
 		
 		rootNode.getChildren().addAll(lblPeople, cbPeople);
-		
-		Separator choiceSep = new Separator();
-		choiceSep.setPrefWidth(25);
-		choiceSep.setVisible(false);
-		rootNode.getChildren().add(choiceSep);
 		
 		ObservableList<String> meals = FXCollections.observableArrayList(DataManager.INSTANCE.getMeals());
 		
 		ComboBox<String> cbMeals = new ComboBox<String>(meals);
 		
-		cbMeals.setValue(meals.get(0));
+		if(!meals.isEmpty()) {
+			cbMeals.setValue(meals.get(0));
+		}
+		
+		cbMeals.setPrefWidth(250);
+		cbMeals.setMaxWidth(375);
 		
 		Label lblMeals = new Label("Meal: ");
+		lblMeals.setPrefWidth(100);
+		lblMeals.setAlignment(Pos.CENTER);
 		
 		rootNode.getChildren().addAll(lblMeals, cbMeals);
 		
@@ -74,37 +81,15 @@ public class ButtonHandler implements EventHandler<ActionEvent> {
 		
 		btnConfirm.setOnAction( (ae) -> {
 			
-			FlowPane cellNode = new FlowPane(5,5);
-			GridPane.setHalignment(cellNode, HPos.CENTER);
-			GridPane.setValignment(cellNode, VPos.CENTER);
-			cellNode.setAlignment(Pos.CENTER);
+			String[] shiftTime = btnTarget.getId().split(" ");
+			Shift newShift = new Shift(Day.getDay(shiftTime[0]), Period.getPeriod(shiftTime[1]),
+					cbPeople.getValue(), DataManager.INSTANCE.getPhone(cbPeople.getValue()), 
+					cbMeals.getValue(), DataManager.INSTANCE.getIngredients(cbMeals.getValue()));
 			
-			Label personLbl = new Label(cbPeople.getValue());
-			Label mealLbl = new Label(cbMeals.getValue());
-			Separator lblSep = new Separator();
-			lblSep.setPrefWidth(150);
-			lblSep.setVisible(false);
-			Separator btnSep = new Separator();
-			btnSep.setPrefWidth(150);
-			Button btnEdit = new Button("Edit");
+			RotaManager.addShift(newShift, btnTarget);
 			
-			btnEdit.setId(btnTarget.getId());
-			btnEdit.setOnAction(RotaManager.btnHandler);
-			
-			cellNode.getChildren().addAll(personLbl, lblSep, mealLbl, btnSep, btnEdit);
-			
-			for(Node n:RotaManager.rootNode.getChildren()) {
-				if(n instanceof GridPane) {				
-					if(btnTarget.getParent() instanceof FlowPane) {
-						((GridPane) n).add(cellNode, GridPane.getColumnIndex(btnTarget.getParent()), GridPane.getRowIndex(btnTarget.getParent()));
-						((GridPane) n).getChildren().remove(btnTarget.getParent());
-					}
-					else {
-						((GridPane) n).add(cellNode, GridPane.getColumnIndex(btnTarget), GridPane.getRowIndex(btnTarget));
-						((GridPane) n).getChildren().remove(btnTarget);
-					}
-				}
-			}
+			sm.remove(sm.clashes(newShift));
+			sm.add(newShift);
 			
 			shiftStage.close();
 		});
