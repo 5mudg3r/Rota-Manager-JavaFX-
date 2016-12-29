@@ -9,6 +9,7 @@ import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
+import java.util.StringTokenizer;
 
 public class PrintRotaHandler implements Printable {
 
@@ -30,8 +31,6 @@ public class PrintRotaHandler implements Printable {
 	public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {
 		Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 10);
 		FontMetrics metrics = graphics.getFontMetrics(font);
-		int lineHeight = metrics.getHeight();
-		
 		double height = pageFormat.getImageableHeight();
 		double width = pageFormat.getImageableWidth();
 		
@@ -64,9 +63,66 @@ public class PrintRotaHandler implements Printable {
 		graphics.drawString("Afternoon", 10, (int) (2 * height/4) + 56);
 		graphics.drawString("Evening", 10, (int) (3 * height/4) + 56);
 		
+		double cellWidth = width/8;
+		double cellHeight = height/4;
+		
+		double shiftX;
+		double shiftY;
+		
+		for(Shift shift : ShiftManager.INSTANCE.getShifts()) {
+			shiftX = (shift.getDay().getLoc())*cellWidth;
+			shiftY = (shift.getPeriod().getLoc())*cellHeight;
+			
+			graphics.drawString(shift.getPerson(), (int) (shiftX + (cellWidth - metrics.stringWidth(shift.getPerson()))/2), (int)shiftY + metrics.getHeight());
+			graphics.drawString(shift.getPhone(), (int) (shiftX + (cellWidth - metrics.stringWidth(shift.getPhone()))/2), (int)shiftY + 2*metrics.getHeight());
+			
+			graphics.drawLine((int)(shiftX + 10), (int)(shiftY + 2.5*metrics.getHeight()), (int)(shiftX + cellWidth - 10),  (int)(shiftY + 2.5*metrics.getHeight()));
+			
+			drawMeal(graphics, shift.getMeal(), (int) shiftX, (int) shiftY, cellWidth, cellHeight, metrics);
+		}
+		
 		
 		
 		return PAGE_EXISTS;
+	}
+
+	private void drawMeal(Graphics graphics, String meal, int cellX, int cellY, double cellWidth, double cellHeight, FontMetrics metrics) {
+		StringTokenizer strTknizr = new StringTokenizer(meal, " ");
+		int Y = (int) ( cellY + 3.5*metrics.getHeight());
+		int x = cellX;
+		int y = Y;
+		int spWidth = metrics.stringWidth(" ");
+		String word, sp;
+		String line = "";
+		while(strTknizr.hasMoreTokens()) {
+			word = strTknizr.nextToken();
+			int wWidth = metrics.stringWidth(word);
+			if((x + spWidth + wWidth) > cellX + cellWidth ) {
+				if(y <= cellY + cellHeight) {
+					graphics.drawString(line, (int)(cellX + ((cellWidth - metrics.stringWidth(line))/2)), y);
+				}
+				else {
+					graphics.drawString("", (int)(cellX + ((cellWidth - metrics.stringWidth(line))/2)), y);
+					break;
+				}
+				
+				line = word;
+				x = cellX + wWidth;
+				y = y + metrics.getHeight();
+			}
+			else {
+				if(x != cellX) {sp = " ";} else { sp = ""; }
+				line = line + sp + word;
+				x = x + spWidth + wWidth;
+			}
+		}
+		if(y <= cellY + cellHeight) {
+			graphics.drawString(line, (int) (cellX + ((cellWidth - metrics.stringWidth(line))/2)), (int) y);
+		}
+		else {
+			graphics.drawString("...", (int) (cellX + ((cellWidth - metrics.stringWidth(line))/2)), (int) y);
+		}
+		
 	}
 
 }

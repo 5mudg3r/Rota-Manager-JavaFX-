@@ -64,6 +64,7 @@ public class MenuHandler implements EventHandler<ActionEvent> {
 			case "Open":	showFileStage("Open");
 							break;
 			case "Save":	showFileStage("Save");
+							break;
 			case "Edit":	if(targetMenu.compareTo("People") == 0) {
 								showEditStage("Person", DataManager.INSTANCE.getPeople());
 							}

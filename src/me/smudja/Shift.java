@@ -40,6 +40,10 @@ public class Shift implements Serializable {
 		return period;
 	}
 	
+	public String getPhone() {
+		return personPhone;
+	}
+	
 	public String[] getIngredients() {
 		return mealIngreds;
 	}

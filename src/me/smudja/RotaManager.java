@@ -20,7 +20,6 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 public class RotaManager extends Application {
@@ -30,7 +29,9 @@ public class RotaManager extends Application {
 	static Stage primaryStage;
 	private static MenuHandler MEHandler;
 	static ButtonHandler btnHandler;
+	@SuppressWarnings("unused")
 	private DataManager dataManager;
+	@SuppressWarnings("unused")
 	private ShiftManager shiftManager;
 	
 	@Override

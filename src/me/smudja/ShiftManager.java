@@ -74,7 +74,7 @@ enum ShiftManager {
 		ArrayList<String> aryIngreds = new ArrayList<String>();
 		for(Shift shift: shifts) {
 			for(String ingred: shift.getIngredients()) {
-				aryIngreds.add(ingred);
+				if(!aryIngreds.contains(ingred)) aryIngreds.add(ingred);
 			}
 		}
 		String[] ingreds = new String[aryIngreds.size()];
