@@ -3,11 +3,31 @@ package me.smudja;
 import java.awt.*;
 import java.awt.print.*;
 
+/**
+ * This class handles printing of shopping lists.
+ * 
+ * @author smithl
+ */
 public class PrintListHandler implements Printable {
 		
-		int[] pageBreaks;	// array to store page break line positions
+		/**
+		 * This array stores the line numbers of each page break.
+		 */
+		int[] pageBreaks;
+		/**
+		 * The array storing the lines of text to be printed.
+		 */
 		String[] textLines;
 		
+		/**
+		 * The constructor for the class.
+		 * A new instance is created by {@link me.smudja.MenuHandler#handle(javafx.event.ActionEvent) MenuHandler}
+		 * for each print job.
+		 * 
+		 * This constructor also displays the print dialog.
+		 * 
+		 * @param textLines	The shopping list to be printed
+		 */
 		public PrintListHandler(String[] textLines) {
 			this.textLines = textLines;
 	        PrinterJob job = PrinterJob.getPrinterJob();
@@ -24,6 +44,12 @@ public class PrintListHandler implements Printable {
 	        }
 	   }
 		
+		/** 
+		 * This method handles the actual printing of the shopping list.
+		 * It implements the {@code print()} function defined in the interface.
+		 * 
+		 * @see java.awt.print.Printable#print(java.awt.Graphics, java.awt.print.PageFormat, int)
+		 */
 		public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {
 			Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 10);
 			FontMetrics metrics = graphics.getFontMetrics(font);
