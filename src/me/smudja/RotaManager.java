@@ -22,18 +22,73 @@ import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+/**
+ * This is the main class for the Java Application.
+ * It handles launching of the Application.
+ * It also creates and populates the menu bar and blank rota configuration screen.
+ * This class also adds new shifts to the display via {@link me.smudja.RotaManager#addShift(Shift, Button) addShift()}.
+ * 
+ * @author smithl
+ */
 public class RotaManager extends Application {
 	
+	/**
+	 * Stores a static reference to the root node of the primary stage
+	 */
 	static BorderPane rootNode;
+	/**
+	 * Stores a static reference to the root node of the grid layout.
+	 * This is a child node of {@link me.smudja.RotaManager#rootNode rootNode}
+	 */
 	static GridPane gridNode;
+	/**
+	 * Stores a static reference to the primary stage of the application.
+	 * This is the stage with scene with root node {@link me.smudja.RotaManager#rootNode rootNode}
+	 */
 	static Stage primaryStage;
+	/**
+	 * This stores a static reference to {@link me.smudja.MenuHandler} for use only by methods within this class.
+	 * It is instantiated in {@link me.smudja.RotaManager#init() init()}
+	 * 
+	 * @see me.smudja.MenuHandler
+	 */
 	private static MenuHandler MEHandler;
+	/**
+	 * This stores a static reference to {@link me.smudja.ButtonHandler}.
+	 * It is instantiated in {@link me.smudja.RotaManager#init() init()}
+	 * 
+	 * @see me.smudja.ButtonHandler
+	 */
 	static ButtonHandler btnHandler;
+	/**
+	 * This stores a reference to the enum {@link me.smudja.DataManager DataManager}.
+	 * This reference is never used in the class, it is only created to allow the enum to 
+	 * be instantiated in the {@link me.smudja.RotaManager#init() init()} method.
+	 * 
+	 * @see me.smudja.DataManager
+	 */
 	@SuppressWarnings("unused")
 	private DataManager dataManager;
+	/**
+	 * This stores a reference to the enum {@link me.smudja.ShiftManager ShiftManager}.
+	 * This reference is never used in the class, it is only created to allow the enum to 
+	 * be instantiated in the {@link me.smudja.RotaManager#init() init()} method.
+	 * 
+	 * @see me.smudja.ShiftManager
+	 */
 	@SuppressWarnings("unused")
 	private ShiftManager shiftManager;
 	
+	/**
+	 * This method overrides the {@code init()} method in the {@code JavaFX Application} class.
+	 * It instantiates the {@code MenuHandler}, {@code ButtonHandler}, {@code DataManager} and {@code ShiftManager} classes.
+	 * 
+	 * @see javafx.application.Application#init()
+	 * @see me.smudja.MenuHandler
+	 * @see me.smudja.ButtonHandler
+	 * @see me.smudja.DataManager
+	 * @see me.smudja.ShiftManager
+	 */
 	@Override
 	public void init() {
 		dataManager = DataManager.INSTANCE;
@@ -42,16 +97,29 @@ public class RotaManager extends Application {
 		btnHandler = new ButtonHandler();
 	}
 	
+	/**
+	 * This is the main method of the application.
+	 * It calls launch to launch the application.
+	 * 
+	 * @param args unused
+	 */
 	public static void main(String[] args) {
 		launch(args);
 	}
 
+	/**
+	 * This method overrides the {@code start(Stage stage)} method in the {@code JavaFX Application} class.
+	 * It creates, configures and displays the primary stage via calls to {@link me.smudja.RotaManager#createGridPane() createGridPane()} and
+	 * {@link me.smudja.RotaManager#createMenuBar() createMenuBar()}.
+	 * 
+	 * @see javafx.application.Application#start(javafx.stage.Stage)
+	 */
 	@Override
 	public void start(Stage primaryStage) {
 		
 		RotaManager.primaryStage = primaryStage;
 		
-		primaryStage.setTitle("Rota Manager v1.0a");
+		primaryStage.setTitle("Rota Manager v1.0b");
 		
 		rootNode = new BorderPane();
 		
@@ -63,6 +131,12 @@ public class RotaManager extends Application {
 		primaryStage.show();		
 	}
 
+	/**
+	 * This method creates and populates a {@link javafx.scene.layout.GridPane GridPane} node
+	 * with an empty shift configuration. This method is called by {@link me.smudja.RotaManager#start(Stage) start()}.
+	 * 
+	 * @return Node with empty shift configuration
+	 */
 	public static Node createGridPane() {
 		
 		GridPane gridNode = new GridPane();
@@ -226,7 +300,13 @@ public class RotaManager extends Application {
 	    
 		return gridNode;
 	}
-
+	
+	/**
+	 * This method creates and populates a {@link javafx.scene.control.MenuBar MenuBar} node
+	 * with the required menu items. This method is called by {@link me.smudja.RotaManager#start(Stage) start()}.
+	 * 
+	 * @return Node with menu items
+	 */
 	public static Node createMenuBar() {
 		MenuBar mbar = new MenuBar();
 		
@@ -282,6 +362,14 @@ public class RotaManager extends Application {
 		return mbar;
 	}
 	
+	/**
+	 * This method adds the shift defined in the parameters to the location of the button in the parameters.
+	 * It handles layout and adding an edit button.
+	 * It does not add the shift to the shift manager.
+	 * 
+	 * @param shift 	The shift to add the configuration
+	 * @param rmButton	The button whose location you want to add the shift to
+	 */
 	public static void addShift(Shift shift, Button rmButton) {
 		
 		FlowPane cellNode = new FlowPane(5,5);

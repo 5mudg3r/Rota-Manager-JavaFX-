@@ -11,8 +11,21 @@ import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 import java.util.StringTokenizer;
 
+/**
+ * This class handles printing of the current rota configuration.
+ * 
+ * @author smithl
+ */
 public class PrintRotaHandler implements Printable {
 
+	
+	/**
+	 * The constructor for the class.
+	 * A new instance of the class is created by {@link me.smudja.MenuHandler#handle(javafx.event.ActionEvent) MenuHandler}
+	 * for each print job.
+	 * 
+	 * This constructor also displays the print dialog.
+	 */
 	public PrintRotaHandler() {
         PrinterJob job = PrinterJob.getPrinterJob();
         job.setPrintable(this);
@@ -28,6 +41,12 @@ public class PrintRotaHandler implements Printable {
         }
    }
 	
+	/** 
+	 * This method handles the printing of the document.
+	 * It implements the {@code print()} function defined in the interface.
+	 * 
+	 * @see java.awt.print.Printable#print(java.awt.Graphics, java.awt.print.PageFormat, int)
+	 */
 	public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {
 		Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 10);
 		FontMetrics metrics = graphics.getFontMetrics(font);
@@ -86,6 +105,18 @@ public class PrintRotaHandler implements Printable {
 		return PAGE_EXISTS;
 	}
 
+	/**
+	 * This utility method is called by {@link me.smudja.PrintRotaHandler#print(Graphics, PageFormat, int) print()}
+	 * to handle displaying the meal on the page as it requires consideration of new lines.
+	 * 
+	 * @param graphics		The graphics being used in {@code print()}
+	 * @param meal			The meal to be printed
+	 * @param cellX			The leftmost x-coordinate of the cell to print the meal in
+	 * @param cellY			The uppermost y-coordinate of the cell to print the meal in
+	 * @param cellWidth		The width of the cell	
+	 * @param cellHeight	The height of the cell
+	 * @param metrics		The metrics of the font being used in {@code print()}
+	 */
 	private void drawMeal(Graphics graphics, String meal, int cellX, int cellY, double cellWidth, double cellHeight, FontMetrics metrics) {
 		StringTokenizer strTknizr = new StringTokenizer(meal, " ");
 		int Y = (int) ( cellY + 3.5*metrics.getHeight());

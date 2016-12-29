@@ -13,10 +13,32 @@ import javafx.scene.control.Separator;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
 
+/**
+ * This class handles button click events from {@link me.smudja.RotaManager#primaryStage primaryStage}.
+ * It is instantiated in {@link me.smudja.RotaManager#init() init()}.
+ * 
+ * @author smithl
+ * 
+ * @see    me.smudja.RotaManager
+ */
 public class ButtonHandler implements EventHandler<ActionEvent> {
 	
+	/**
+	 *  A reference to {@link me.smudja.ShiftManager}
+	 *  This will never instantiate the {@code ShiftManager}.
+	 */
 	ShiftManager sm = ShiftManager.INSTANCE;
 
+	/** 
+	 * This method overrides the {@code handle()} method from {@code EventHandler}.
+	 * It creates the new shift stage along with a confirm button.
+	 * Once the confirm button is clicked, it adds the new shift to the primary stage and the shift manager.
+	 * It then removes any clashing shifts from the shift manager.
+	 * 
+	 * @see javafx.event.EventHandler#handle(javafx.event.Event)
+	 * @see	me.smudja.RotaManager#addShift(Shift, Button)
+	 * @see me.smudja.ShiftManager#add(Shift)
+	 */
 	@Override
 	public void handle(ActionEvent event) {
 		

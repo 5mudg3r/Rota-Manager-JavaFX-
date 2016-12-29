@@ -19,14 +19,28 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
 
+/** 
+ * This class handles menu click events from {@link me.smudja.RotaManager RotaManager}.
+ * It is instantiated in {@link me.smudja.RotaManager#init() init()}.
+ * 
+ * @author smithl
+ * 
+ * @see    me.smudja.RotaManager
+ */
 public class MenuHandler implements EventHandler<ActionEvent> {
 	
-	ShiftManager shiftManager;
+	/**
+	 *  A reference to {@link me.smudja.ShiftManager}
+	 *  This will never instantiate the {@code ShiftManager}.
+	 */
+	ShiftManager sm = ShiftManager.INSTANCE;
 	
-	public MenuHandler() {
-		shiftManager = ShiftManager.INSTANCE;
-	}
-	
+	/** 
+	 * This method overrides the {@code handle()} method from {@code EventHandler}.
+	 * It determines which menu item was clicked and handles it accordingly.
+	 * 
+	 * @see javafx.event.EventHandler#handle(javafx.event.Event)
+	 */
 	@Override
 	public void handle(ActionEvent event) {
 		String name = ((MenuItem)event.getTarget()).getText();
@@ -38,7 +52,7 @@ public class MenuHandler implements EventHandler<ActionEvent> {
 			case "New":	 	RotaManager.rootNode.setTop(RotaManager.createMenuBar());
 						 	RotaManager.rootNode.setCenter(RotaManager.createGridPane());
 						 	RotaManager.primaryStage.show();
-						 	shiftManager.purge();
+						 	sm.purge();
 						 	break;
 			case "View": 	if(targetMenu.compareTo("People") == 0) {
 						 		showViewStage("People", DataManager.INSTANCE.getPeople());
@@ -84,6 +98,15 @@ public class MenuHandler implements EventHandler<ActionEvent> {
 		}
 	}
 
+	/**
+	 * This method displays and handles a stage for editing either a person or a meal.
+	 * It displays a list of the current items of type specified and gives an edit button to choose an item to edit.
+	 * The edit button will call {@link me.smudja.MenuHandler#showEditSubStage(String, String) showEditSubStage()} which
+	 * handles the actual editing of the item.
+	 * 
+	 * @param type	The type of item to edit ("Person" or "Meal")
+	 * @param items	An array containing the currently active items of type above.
+	 */
 	private void showEditStage(String type, String[] items) {
 		Stage editStage = new Stage();
 		
@@ -123,6 +146,13 @@ public class MenuHandler implements EventHandler<ActionEvent> {
 		editStage.show();
 	}
 
+	/**
+	 * This method is only ever called by {@link me.smudja.MenuHandler#showEditStage(String, String[]) showEditStage()}.
+	 * It handles editing of an item supplied as a parameter.
+	 * 
+	 * @param type			The type of item we are editing ("Person" or "Meal")
+	 * @param strRemove		The item to be edited
+	 */
 	private void showEditSubStage(String type, String strRemove) {
 		Stage editSubStage = new Stage();
 		
@@ -207,6 +237,11 @@ public class MenuHandler implements EventHandler<ActionEvent> {
 		
 	}
 
+	/**
+	 * This method handles the stage for file operations.
+	 * 
+	 * @param type	The type of file operation ("Open" or "Save")
+	 */
 	private void showFileStage(String type) {
 		Stage fileStage = new Stage();
 		
@@ -241,14 +276,14 @@ public class MenuHandler implements EventHandler<ActionEvent> {
 			
 			if(type.compareTo("Open") == 0) {
 				RotaManager.rootNode.setCenter(RotaManager.createGridPane());
-				shiftManager.purge();
-				shiftManager.load(strName);
-				for(Shift s : shiftManager.getShifts()) {
+				sm.purge();
+				sm.load(strName);
+				for(Shift s : sm.getShifts()) {
 					RotaManager.addShift(s, null);
 				}
 			}
 			else {
-				shiftManager.save(strName);
+				sm.save(strName);
 			}		
 			fileStage.close();
 		});
@@ -258,6 +293,12 @@ public class MenuHandler implements EventHandler<ActionEvent> {
 		fileStage.show();
 	}
 
+	/**
+	 * This method handles the stage for removing items.
+	 * 
+	 * @param type	The type of item to remove ("People" or "Meals")
+	 * @param items	An array of the currently active items
+	 */
 	private void showRemoveStage(String type, String[] items) {
 		Stage removeStage = new Stage();
 		
@@ -300,6 +341,11 @@ public class MenuHandler implements EventHandler<ActionEvent> {
 		removeStage.show();
 	}
 	
+	/**
+	 * This method handles the stage for adding items
+	 * 
+	 * @param type	The type of item to add ("Person" or "Meal")
+	 */
 	private void showAddStage(String type) {
 		Stage addStage = new Stage();
 		
@@ -368,6 +414,12 @@ public class MenuHandler implements EventHandler<ActionEvent> {
 		addStage.show();
 	}
 
+	/**
+	 * This method handles the stage for viewing currently active items.
+	 * 
+	 * @param type	The type of item ("People" or "Meals")
+	 * @param items	An array of the currently active items
+	 */
 	private void showViewStage(String type, String[] items) {
 		Stage viewStage = new Stage();
 		
