@@ -38,12 +38,12 @@ public class RotaManager extends Application {
 	static BorderPane rootNode;
 	/**
 	 * Stores a static reference to the root node of the grid layout.
-	 * This is a child node of {@link me.smudja.RotaManager#rootNode rootNode}
+	 * This is a child node of {@link me.smudja.RotaManager#rootNode rootNode}.
 	 */
 	static GridPane gridNode;
 	/**
 	 * Stores a static reference to the primary stage of the application.
-	 * This is the stage with scene with root node {@link me.smudja.RotaManager#rootNode rootNode}
+	 * This is the stage with scene with root node {@link me.smudja.RotaManager#rootNode rootNode}.
 	 */
 	static Stage primaryStage;
 	/**
