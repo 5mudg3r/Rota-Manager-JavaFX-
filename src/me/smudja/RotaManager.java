@@ -33,7 +33,7 @@ import javafx.stage.Stage;
 public class RotaManager extends Application {
 	
 	/**
-	 * Stores a static reference to the root node of the primary stage
+	 * Stores a static reference to the root node of the primary stage.
 	 */
 	static BorderPane rootNode;
 	/**
