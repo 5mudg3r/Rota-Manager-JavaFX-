@@ -123,6 +123,20 @@ public class MenuHandler implements EventHandler<ActionEvent> {
 		
 		rootNode.getChildren().addAll(ingredsLbl, separator);
 		
+		String[] strIngreds = ShiftManager.INSTANCE.getWeeksIngredients();
+		ObservableList<String> ingredsList = FXCollections.observableArrayList(strIngreds);
+		
+		ListView<String> lvIngreds = new ListView<String>(ingredsList);
+		
+		lvIngreds.setPrefWidth(250);
+		lvIngreds.setPrefHeight(375);
+		
+		rootNode.getChildren().add(lvIngreds);
+		
+		Button btnPrint = new Button("Print");
+		
+		rootNode.getChildren().add(btnPrint);
+		
 		previewStage.show();
 	}
 
