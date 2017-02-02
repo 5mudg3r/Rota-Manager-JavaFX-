@@ -93,9 +93,37 @@ public class MenuHandler implements EventHandler<ActionEvent> {
 								new PrintRotaHandler();
 							}
 							break;
+			case "Preview": showPreviewStage();
+							break;
 			default:	 	System.out.println("Menu Item Not Recognised");
 							break;
 		}
+	}
+
+	/**
+	 * This method displays and handles a stage for editing of the current week's ingredients before printing
+	 * The print button will instantiate a new {@link me.smudja.PrintListHandler PrintListHandler} with the list of
+	 * ingredients currently displayed on the stage.
+	 */
+	private void showPreviewStage() {
+		Stage previewStage = new Stage();
+		
+		previewStage.setTitle("Print Preview");
+		
+		FlowPane rootNode = new FlowPane(20,20);
+		
+		rootNode.setAlignment(Pos.CENTER);
+		
+		previewStage.setScene(new Scene(rootNode, 300, 550));
+		
+		Label ingredsLbl = new Label("Ingredients");
+		
+		Separator separator = new Separator();
+		separator.setPrefWidth(280);
+		
+		rootNode.getChildren().addAll(ingredsLbl, separator);
+		
+		previewStage.show();
 	}
 
 	/**
