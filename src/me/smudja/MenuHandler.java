@@ -168,6 +168,11 @@ public class MenuHandler implements EventHandler<ActionEvent> {
 		
 		Button btnPrint = new Button("Print");
 		btnPrint.setPrefWidth(85);
+		btnPrint.setOnAction( (ae) -> {
+			previewStage.close();
+			String[] printList = new String[lvIngreds.getItems().size()];
+			new PrintListHandler(lvIngreds.getItems().toArray(printList));
+		});
 		
 		rootNode.getChildren().add(btnPrint);
 		
