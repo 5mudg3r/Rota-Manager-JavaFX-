@@ -16,6 +16,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
+import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
 
@@ -114,12 +115,12 @@ public class MenuHandler implements EventHandler<ActionEvent> {
 		
 		rootNode.setAlignment(Pos.CENTER);
 		
-		previewStage.setScene(new Scene(rootNode, 300, 550));
+		previewStage.setScene(new Scene(rootNode, 350, 650));
 		
 		Label ingredsLbl = new Label("Ingredients");
 		
 		Separator separator = new Separator();
-		separator.setPrefWidth(280);
+		separator.setPrefWidth(330);
 		
 		rootNode.getChildren().addAll(ingredsLbl, separator);
 		
@@ -128,12 +129,28 @@ public class MenuHandler implements EventHandler<ActionEvent> {
 		
 		ListView<String> lvIngreds = new ListView<String>(ingredsList);
 		
-		lvIngreds.setPrefWidth(250);
-		lvIngreds.setPrefHeight(375);
+		lvIngreds.setPrefWidth(300);
+		lvIngreds.setPrefHeight(425);
+		
+		lvIngreds.setEditable(true);
+		lvIngreds.setCellFactory(TextFieldListCell.forListView());
+		
+		lvIngreds.setTooltip(new Tooltip("To edit an item, double-click it and then press enter when done"));
 		
 		rootNode.getChildren().add(lvIngreds);
 		
+		Button btnAdd = new Button("Add");
+		Button btnRemove = new Button("Remove");
+		Button btnReset = new Button("Reset");
+		
+		btnAdd.setPrefWidth(85);
+		btnRemove.setPrefWidth(85);
+		btnReset.setPrefWidth(85);
+		
+		rootNode.getChildren().addAll(btnAdd, btnRemove, btnReset);
+		
 		Button btnPrint = new Button("Print");
+		btnPrint.setPrefWidth(85);
 		
 		rootNode.getChildren().add(btnPrint);
 		
