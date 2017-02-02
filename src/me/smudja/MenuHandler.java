@@ -144,8 +144,25 @@ public class MenuHandler implements EventHandler<ActionEvent> {
 		Button btnReset = new Button("Reset");
 		
 		btnAdd.setPrefWidth(85);
+		btnAdd.setOnAction( (ae) -> {
+			lvIngreds.getItems().add("NEW ITEM");
+			int index = lvIngreds.getItems().size() - 1;
+			lvIngreds.scrollTo(index);
+			lvIngreds.getFocusModel().focus(index);
+			lvIngreds.getSelectionModel().clearAndSelect(index);
+		});
+		
 		btnRemove.setPrefWidth(85);
+		btnRemove.setOnAction( (ae) -> {
+			int selected = lvIngreds.getSelectionModel().getSelectedIndex();
+			lvIngreds.getItems().remove(selected);
+		});
+		
 		btnReset.setPrefWidth(85);
+		btnReset.setOnAction( (ae) -> {
+			lvIngreds.setItems(FXCollections.observableArrayList(strIngreds));
+			lvIngreds.refresh();
+		});
 		
 		rootNode.getChildren().addAll(btnAdd, btnRemove, btnReset);
 		
