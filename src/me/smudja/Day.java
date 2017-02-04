@@ -53,4 +53,13 @@ public enum Day {
 			default:			return null;
 		}
 	}
+	
+	public static String getDayString(int day) {
+		for(Day d : Day.values()) {
+			if(d.getLoc() == day) {
+				return d.toString();
+			}
+		}
+		return null;
+	}
 }

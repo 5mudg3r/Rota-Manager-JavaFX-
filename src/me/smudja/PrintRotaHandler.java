@@ -70,24 +70,29 @@ public class PrintRotaHandler implements Printable {
 			g2d.draw(new Line2D.Double(0, (j * height/4), width, (j*height/4)));
 		}
 		
-		graphics.drawString("Monday", (int) (width/8) + 20, (int) height/8);
-		graphics.drawString("Tuesday", (int) (2 * width/8) + 20, (int) height/8);
-		graphics.drawString("Wednesday", (int) (3 * width/8) + 20, (int) height/8);
-		graphics.drawString("Thursday", (int) (4 * width/8) + 20, (int) height/8);
-		graphics.drawString("Friday", (int) (5 * width/8) + 20, (int) height/8);
-		graphics.drawString("Saturday", (int) (6 * width/8) + 20, (int) height/8);
-		graphics.drawString("Sunday", (int) (7 * width/8) + 20, (int) height/8);
-		
-		graphics.drawString("Morning", 10, (int) (height/4) + 56);
-		graphics.drawString("Afternoon", 10, (int) (2 * height/4) + 56);
-		graphics.drawString("Evening", 10, (int) (3 * height/4) + 56);
-		
 		double cellWidth = width/8;
 		double cellHeight = height/4;
+		
+		// This array stores the column headings to be used for the current schedule
+		String[] days = new String[]{ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
+		
+		// This loop draws each column heading onto the schedule from left to right
+		for(int i = 1; i < 8; i++) {
+			graphics.drawString(days[i-1], (int) ((i * cellWidth) + ((cellWidth - metrics.stringWidth(days[i-1]))/2)), (int) cellHeight/2);
+		}
+		
+		// This array stores the row headings to be used for the current schedule
+		String[] shifts = new String[]{ "Morning", "Afternoon", "Evening" };
+		
+		// This loop draws each row heading onto the schedule from top to bottom
+		for(int i = 1; i < 4; i++) {
+			graphics.drawString(shifts[i-1], (int) ((cellWidth - metrics.stringWidth(shifts[i-1]))/2), (int) ((i * cellHeight) + (cellHeight/2)));
+		}
 		
 		double shiftX;
 		double shiftY;
 		
+		// This method draws each shift onto the blank schedule
 		for(Shift shift : ShiftManager.INSTANCE.getShifts()) {
 			shiftX = (shift.getDay().getLoc())*cellWidth;
 			shiftY = (shift.getPeriod().getLoc())*cellHeight;
