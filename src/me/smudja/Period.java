@@ -48,4 +48,13 @@ public enum Period {
 			default:			return null;
 		}
 	}
+
+	public static String getPeriodString(int period) {
+		for(Period p : Period.values()) {
+			if(p.getLoc() == period) {
+				return p.toString();
+			}
+		}
+		return null;
+	}
 }
