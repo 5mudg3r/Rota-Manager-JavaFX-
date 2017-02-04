@@ -169,11 +169,11 @@ public class RotaManager extends Application {
 		Text morning = new Text("Morning");
 		gridNode.add(morning, 0, 1);
 		
-		Text lunch = new Text("Afternoon");
-		gridNode.add(lunch, 0, 2);
+		Text afternoon = new Text("Afternoon");
+		gridNode.add(afternoon, 0, 2);
 		
-		Text dinner = new Text("Evening");
-		gridNode.add(dinner, 0, 3);
+		Text evening = new Text("Evening");
+		gridNode.add(evening, 0, 3);
 		
 		Button[][] buttons = new Button[7][3];
 		for(int i = 0; i < 7; i++) {
@@ -187,40 +187,36 @@ public class RotaManager extends Application {
 		
 		gridNode.setAlignment(Pos.CENTER);
 		
-		ColumnConstraints column1 = new ColumnConstraints();
-	    column1.setPercentWidth(50);
-	    ColumnConstraints column2 = new ColumnConstraints();
-	    column2.setPercentWidth(100);
-	    ColumnConstraints column3 = new ColumnConstraints();
-	    column3.setPercentWidth(100);
-	    ColumnConstraints column4 = new ColumnConstraints();
-	    column4.setPercentWidth(100);
-	    ColumnConstraints column5 = new ColumnConstraints();
-	    column5.setPercentWidth(100);
-	    ColumnConstraints column6 = new ColumnConstraints();
-	    column6.setPercentWidth(100);
-	    ColumnConstraints column7 = new ColumnConstraints();
-	    column7.setPercentWidth(100);
-	    ColumnConstraints column8 = new ColumnConstraints();
-	    column8.setPercentWidth(100);
+		ColumnConstraints[] colConstraints = new ColumnConstraints[8];
 		
-	    gridNode.getColumnConstraints().addAll(column1, column2, column3, column4, column5, column6, column7, column8);
-	    
-	    RowConstraints row1 = new RowConstraints();
-	    row1.setPercentHeight(50);
-	    RowConstraints row2 = new RowConstraints();
-	    row2.setPercentHeight(100);
-	    RowConstraints row3 = new RowConstraints();
-	    row3.setPercentHeight(100);
-	    RowConstraints row4 = new RowConstraints();
-	    row4.setPercentHeight(100);
-	    
+		for(int i = 0; i < 8; i++) {
+			colConstraints[i] = new ColumnConstraints();
+			if(i == 0) {
+				colConstraints[i].setPercentWidth(50);
+			}
+			else {
+				colConstraints[i].setPercentWidth(100);
+			}
+			gridNode.getColumnConstraints().add(colConstraints[i]);
+		}
+		
+		RowConstraints[] rowConstraints = new RowConstraints[4];
+		
+		for(int i = 0; i < 4; i++) {
+			rowConstraints[i] = new RowConstraints();
+			if(i == 0) {
+				rowConstraints[i].setPercentHeight(50);
+			}
+			else {
+				rowConstraints[i].setPercentHeight(100);
+			}
+			gridNode.getRowConstraints().add(rowConstraints[i]);
+		}
+			    
 	    for(Node node:gridNode.getChildren()) {
 	    	GridPane.setValignment(node, VPos.CENTER);
 	    	GridPane.setHalignment(node, HPos.CENTER);
 	    }
-	    
-	    gridNode.getRowConstraints().addAll(row1, row2, row3, row4);
 	    
 		return gridNode;
 	}
