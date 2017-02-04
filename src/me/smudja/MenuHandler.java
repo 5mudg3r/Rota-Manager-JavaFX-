@@ -16,6 +16,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
+import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
 
@@ -93,9 +94,89 @@ public class MenuHandler implements EventHandler<ActionEvent> {
 								new PrintRotaHandler();
 							}
 							break;
+			case "Preview": showPreviewStage();
+							break;
 			default:	 	System.out.println("Menu Item Not Recognised");
 							break;
 		}
+	}
+
+	/**
+	 * This method displays and handles a stage for editing of the current week's ingredients before printing
+	 * The print button will instantiate a new {@link me.smudja.PrintListHandler PrintListHandler} with the list of
+	 * ingredients currently displayed on the stage.
+	 */
+	private void showPreviewStage() {
+		Stage previewStage = new Stage();
+		
+		previewStage.setTitle("Print Preview");
+		
+		FlowPane rootNode = new FlowPane(20,20);
+		
+		rootNode.setAlignment(Pos.CENTER);
+		
+		previewStage.setScene(new Scene(rootNode, 350, 650));
+		
+		Label ingredsLbl = new Label("Ingredients");
+		
+		Separator separator = new Separator();
+		separator.setPrefWidth(330);
+		
+		rootNode.getChildren().addAll(ingredsLbl, separator);
+		
+		String[] strIngreds = ShiftManager.INSTANCE.getWeeksIngredients();
+		ObservableList<String> ingredsList = FXCollections.observableArrayList(strIngreds);
+		
+		ListView<String> lvIngreds = new ListView<String>(ingredsList);
+		
+		lvIngreds.setPrefWidth(300);
+		lvIngreds.setPrefHeight(425);
+		
+		lvIngreds.setEditable(true);
+		lvIngreds.setCellFactory(TextFieldListCell.forListView());
+		
+		lvIngreds.setTooltip(new Tooltip("To edit an item, double-click it and then press enter when done"));
+		
+		rootNode.getChildren().add(lvIngreds);
+		
+		Button btnAdd = new Button("Add");
+		Button btnRemove = new Button("Remove");
+		Button btnReset = new Button("Reset");
+		
+		btnAdd.setPrefWidth(85);
+		btnAdd.setOnAction( (ae) -> {
+			lvIngreds.getItems().add("NEW ITEM");
+			int index = lvIngreds.getItems().size() - 1;
+			lvIngreds.scrollTo(index);
+			lvIngreds.getFocusModel().focus(index);
+			lvIngreds.getSelectionModel().clearAndSelect(index);
+		});
+		
+		btnRemove.setPrefWidth(85);
+		btnRemove.setOnAction( (ae) -> {
+			int selected = lvIngreds.getSelectionModel().getSelectedIndex();
+			lvIngreds.getItems().remove(selected);
+		});
+		
+		btnReset.setPrefWidth(85);
+		btnReset.setOnAction( (ae) -> {
+			lvIngreds.setItems(FXCollections.observableArrayList(strIngreds));
+			lvIngreds.refresh();
+		});
+		
+		rootNode.getChildren().addAll(btnAdd, btnRemove, btnReset);
+		
+		Button btnPrint = new Button("Print");
+		btnPrint.setPrefWidth(85);
+		btnPrint.setOnAction( (ae) -> {
+			previewStage.close();
+			String[] printList = new String[lvIngreds.getItems().size()];
+			new PrintListHandler(lvIngreds.getItems().toArray(printList));
+		});
+		
+		rootNode.getChildren().add(btnPrint);
+		
+		previewStage.show();
 	}
 
 	/**

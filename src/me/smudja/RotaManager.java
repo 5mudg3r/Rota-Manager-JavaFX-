@@ -340,7 +340,8 @@ public class RotaManager extends Application {
 		
 		Menu shopMenu = new Menu("Shopping List");
 		MenuItem printSMI = new MenuItem("Print");
-		shopMenu.getItems().add(printSMI);
+		MenuItem previewSMI = new MenuItem("Preview");
+		shopMenu.getItems().addAll(printSMI, previewSMI);
 		
 		mbar.getMenus().add(shopMenu);
 
@@ -358,6 +359,7 @@ public class RotaManager extends Application {
 		removePMI.setOnAction(MEHandler);
 		editPMI.setOnAction(MEHandler);
 		printSMI.setOnAction(MEHandler);
+		previewSMI.setOnAction(MEHandler);
 		
 		return mbar;
 	}
