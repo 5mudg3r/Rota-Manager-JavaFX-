@@ -119,7 +119,7 @@ public class RotaManager extends Application {
 		
 		RotaManager.primaryStage = primaryStage;
 		
-		primaryStage.setTitle("Rota Manager v1.0b");
+		primaryStage.setTitle("Rota Manager v1.1");
 		
 		rootNode = new BorderPane();
 		

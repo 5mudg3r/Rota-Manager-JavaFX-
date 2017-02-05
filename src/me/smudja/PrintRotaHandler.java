@@ -74,7 +74,7 @@ public class PrintRotaHandler implements Printable {
 		double cellHeight = height/4;
 		
 		// This array stores the column headings to be used for the current schedule
-		String[] days = new String[]{ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
+		String[] days = new String[]{ "Mon 06 Feb", "Tue 07 Feb", "Wed 08 Feb", "Thu 09 Feb", "Fri 10 Feb", "Sat 04 Feb", "Sun 05 Feb"};
 		
 		// This loop draws each column heading onto the schedule from left to right
 		for(int i = 1; i < 8; i++) {
