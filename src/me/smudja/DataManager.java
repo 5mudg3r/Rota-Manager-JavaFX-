@@ -63,7 +63,6 @@ enum DataManager {
 		}
 	}
 
-	
 	/**
 	 * This method saves the both hash maps via an {@code ObjectOutputStream}. It saves each hash map to its own file from
 	 * which the constructor tries to load the hash maps. It handles any exceptions by printing to console.
@@ -185,4 +184,6 @@ enum DataManager {
 		return strArrMeals = meals.keySet().toArray(strArrMeals);
 	}
 
+	
+	
 }

@@ -73,12 +73,13 @@ public class PrintRotaHandler implements Printable {
 		double cellWidth = width/8;
 		double cellHeight = height/4;
 		
-		// This array stores the column headings to be used for the current schedule
-		String[] days = new String[]{ "Mon 06 Feb", "Tue 07 Feb", "Wed 08 Feb", "Thu 09 Feb", "Fri 10 Feb", "Sat 04 Feb", "Sun 05 Feb"};
+		String rmversion = "RM v" + RotaManager.VERSION;
+		
+		graphics.drawString(rmversion, (int) (((cellWidth - metrics.stringWidth(rmversion))/2)), (int) cellHeight/2);
 		
 		// This loop draws each column heading onto the schedule from left to right
 		for(int i = 1; i < 8; i++) {
-			graphics.drawString(days[i-1], (int) ((i * cellWidth) + ((cellWidth - metrics.stringWidth(days[i-1]))/2)), (int) cellHeight/2);
+			graphics.drawString(DateManager.INSTANCE.getDates()[i-1], (int) ((i * cellWidth) + ((cellWidth - metrics.stringWidth(DateManager.INSTANCE.getDates()[i-1]))/2)), (int) cellHeight/2);
 		}
 		
 		// This array stores the row headings to be used for the current schedule
