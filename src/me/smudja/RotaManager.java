@@ -1,5 +1,8 @@
 package me.smudja;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 import javafx.application.Application;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
@@ -78,6 +81,11 @@ public class RotaManager extends Application {
 	 */
 	@SuppressWarnings("unused")
 	private ShiftManager shiftManager;
+	
+	/**
+	 * Stores the dates along the heading of the rota
+	 */
+	static String[] dates;
 	
 	/**
 	 * This method overrides the {@code init()} method in the {@code JavaFX Application} class.
@@ -165,6 +173,111 @@ public class RotaManager extends Application {
 		
 		Text sunday = new Text("Sunday");
 		gridNode.add(sunday, 7, 0);
+		
+		dates = new String[]{"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
+		
+		Text morning = new Text("Morning");
+		gridNode.add(morning, 0, 1);
+		
+		Text afternoon = new Text("Afternoon");
+		gridNode.add(afternoon, 0, 2);
+		
+		Text evening = new Text("Evening");
+		gridNode.add(evening, 0, 3);
+		
+		Button[][] buttons = new Button[7][3];
+		for(int i = 0; i < 7; i++) {
+			for(int j = 0; j < 3; j++) {
+				buttons[i][j] = new Button("New Shift");
+				buttons[i][j].setId(Day.getDayString(i + 1) + " " + Period.getPeriodString(j + 1));
+				gridNode.add(buttons[i][j], i + 1, j + 1);
+				buttons[i][j].setOnAction(btnHandler);
+			}
+		}
+		
+		gridNode.setAlignment(Pos.CENTER);
+		
+		ColumnConstraints[] colConstraints = new ColumnConstraints[8];
+		
+		for(int i = 0; i < 8; i++) {
+			colConstraints[i] = new ColumnConstraints();
+			if(i == 0) {
+				colConstraints[i].setPercentWidth(50);
+			}
+			else {
+				colConstraints[i].setPercentWidth(100);
+			}
+			gridNode.getColumnConstraints().add(colConstraints[i]);
+		}
+		
+		RowConstraints[] rowConstraints = new RowConstraints[4];
+		
+		for(int i = 0; i < 4; i++) {
+			rowConstraints[i] = new RowConstraints();
+			if(i == 0) {
+				rowConstraints[i].setPercentHeight(50);
+			}
+			else {
+				rowConstraints[i].setPercentHeight(100);
+			}
+			gridNode.getRowConstraints().add(rowConstraints[i]);
+		}
+			    
+	    for(Node node:gridNode.getChildren()) {
+	    	GridPane.setValignment(node, VPos.CENTER);
+	    	GridPane.setHalignment(node, HPos.CENTER);
+	    }
+	    
+		return gridNode;
+	}
+	
+	/**
+	 * This method creates and populates a {@link javafx.scene.layout.GridPane GridPane} node
+	 * with an empty shift configuration. This method is called by {@link me.smudja.RotaManager#start(Stage) start()}.
+	 * 
+	 * @return Node with empty shift configuration
+	 */
+	public static Node createGridPane(LocalDate satDate) {
+		
+		GridPane gridNode = new GridPane();
+		
+		gridNode.setVgap(10);
+		gridNode.setHgap(10);
+		gridNode.setPadding(new Insets(0, 10, 0, 10));
+		
+		DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("EEEE dd MMMM");
+		
+		Text monday = new Text(satDate.plusDays(2).format(timeFormat));
+		gridNode.add(monday, 1, 0);
+		
+		Text tuesday = new Text(satDate.plusDays(3).format(timeFormat));
+		gridNode.add(tuesday, 2, 0);
+		
+		Text wednesday = new Text(satDate.plusDays(4).format(timeFormat));
+		gridNode.add(wednesday, 3, 0);
+		
+		Text thursday = new Text(satDate.plusDays(5).format(timeFormat));
+		gridNode.add(thursday, 4, 0);
+		
+		Text friday = new Text(satDate.plusDays(6).format(timeFormat));
+		gridNode.add(friday, 5, 0);
+		
+		Text saturday = new Text(satDate.format(timeFormat));
+		gridNode.add(saturday, 6, 0);
+		
+		Text sunday = new Text(satDate.plusDays(1).format(timeFormat));
+		gridNode.add(sunday, 7, 0);
+		
+		DateTimeFormatter printFormat = DateTimeFormatter.ofPattern("E dd MMM");
+		dates = new String[]{
+				satDate.plusDays(2).format(printFormat),
+				satDate.plusDays(3).format(printFormat),
+				satDate.plusDays(4).format(printFormat),
+				satDate.plusDays(5).format(printFormat),
+				satDate.plusDays(6).format(printFormat),
+				satDate.format(printFormat),
+				satDate.plusDays(1).format(printFormat)
+		};
 		
 		Text morning = new Text("Morning");
 		gridNode.add(morning, 0, 1);

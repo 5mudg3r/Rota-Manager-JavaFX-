@@ -1,7 +1,8 @@
 package me.smudja;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.Arrays;
-
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -50,10 +51,7 @@ public class MenuHandler implements EventHandler<ActionEvent> {
 		switch(name) {
 			case "Exit": 	Platform.exit();
 						 	break;
-			case "New":	 	RotaManager.rootNode.setTop(RotaManager.createMenuBar());
-						 	RotaManager.rootNode.setCenter(RotaManager.createGridPane());
-						 	RotaManager.primaryStage.show();
-						 	sm.purge();
+			case "New":	 	showNewStage();
 						 	break;
 			case "View": 	if(targetMenu.compareTo("People") == 0) {
 						 		showViewStage("People", DataManager.INSTANCE.getPeople());
@@ -99,6 +97,182 @@ public class MenuHandler implements EventHandler<ActionEvent> {
 			default:	 	System.out.println("Menu Item Not Recognised");
 							break;
 		}
+	}
+
+	/**
+	 * This method shows the new stage, requesting the date of the Saturday of the week, before displaying a blank rota.
+	 * @param b 
+	 */
+	private void showNewStage() {
+		Stage newStage = new Stage();
+		
+		newStage.setTitle("New Rota");
+		
+		FlowPane rootNode = new FlowPane(20,20);
+		
+		rootNode.setAlignment(Pos.CENTER);
+		
+		newStage.setScene(new Scene(rootNode, 350, 250));
+		
+		Label dateLbl = new Label("Date of Saturday");
+		dateLbl.setPrefWidth(330);
+		dateLbl.setAlignment(Pos.CENTER);
+		Label infoLbl = new Label("(Leave blank for default)");
+		infoLbl.setPrefWidth(330);
+		infoLbl.setAlignment(Pos.CENTER);
+		
+		Separator separator = new Separator();
+		separator.setPrefWidth(330);
+		
+		rootNode.getChildren().addAll(dateLbl, infoLbl, separator);
+		
+		TextField tfDate = new TextField();
+		tfDate.setTooltip(new Tooltip("YYYY-MM-DD"));
+		tfDate.setPrefWidth(300);
+		
+		Button btnOk = new Button("Ok");
+		
+		btnOk.setPrefWidth(85);
+		btnOk.setOnAction( (ae) -> {
+			if(tfDate.getText().compareTo("") == 0) {
+				RotaManager.rootNode.setTop(RotaManager.createMenuBar());
+				RotaManager.rootNode.setCenter(RotaManager.createGridPane());
+				RotaManager.primaryStage.show();
+				sm.purge();
+				newStage.close();
+			}
+			else {
+				try {
+					LocalDate satDate =  LocalDate.parse(tfDate.getText());
+					RotaManager.rootNode.setTop(RotaManager.createMenuBar());
+					RotaManager.rootNode.setCenter(RotaManager.createGridPane(satDate));
+					RotaManager.primaryStage.show();
+					sm.purge();
+					newStage.close();
+				}
+				catch(DateTimeParseException exc) {
+					Stage errStage = new Stage();
+
+					errStage.setTitle("Date Format Error");
+
+					FlowPane errRootNode = new FlowPane(20,20);
+
+					errRootNode.setAlignment(Pos.CENTER);
+
+					errStage.setScene(new Scene(errRootNode, 350, 150));
+
+					Label errLbl = new Label("ERROR: Incorrect Date Format (YYYY-MM-DD)");
+					errLbl.setPrefWidth(330);
+					errLbl.setAlignment(Pos.CENTER);
+
+					Button btnErrOk = new Button("Ok");
+
+					btnErrOk.setOnAction( (errae) -> {
+						errStage.close();
+						newStage.close();
+						showNewStage();
+					});
+
+					errRootNode.getChildren().addAll(errLbl, btnErrOk);
+					
+					errStage.show();
+				}
+			}
+		});
+		
+		rootNode.getChildren().addAll(tfDate, btnOk);
+		
+		newStage.show();
+	}
+	
+	private void showOpenStage(String strName) {
+		Stage newStage = new Stage();
+		
+		newStage.setTitle("New Rota");
+		
+		FlowPane rootNode = new FlowPane(20,20);
+		
+		rootNode.setAlignment(Pos.CENTER);
+		
+		newStage.setScene(new Scene(rootNode, 350, 250));
+		
+		Label dateLbl = new Label("Date of Saturday");
+		dateLbl.setPrefWidth(330);
+		dateLbl.setAlignment(Pos.CENTER);
+		Label infoLbl = new Label("(Leave blank for default)");
+		infoLbl.setPrefWidth(330);
+		infoLbl.setAlignment(Pos.CENTER);
+		
+		Separator separator = new Separator();
+		separator.setPrefWidth(330);
+		
+		rootNode.getChildren().addAll(dateLbl, infoLbl, separator);
+		
+		TextField tfDate = new TextField();
+		tfDate.setTooltip(new Tooltip("YYYY-MM-DD"));
+		tfDate.setPrefWidth(300);
+		
+		Button btnOk = new Button("Ok");
+		
+		btnOk.setPrefWidth(85);
+		btnOk.setOnAction( (ae) -> {
+			if(tfDate.getText().compareTo("") == 0) {
+				RotaManager.rootNode.setTop(RotaManager.createMenuBar());
+				RotaManager.rootNode.setCenter(RotaManager.createGridPane());
+				RotaManager.primaryStage.show();
+				sm.purge();
+				sm.load(strName);
+				for(Shift s : sm.getShifts()) {
+					RotaManager.addShift(s, null);
+				}
+				newStage.close();
+			}
+			else {
+				try {
+					LocalDate satDate =  LocalDate.parse(tfDate.getText());
+					RotaManager.rootNode.setTop(RotaManager.createMenuBar());
+					RotaManager.rootNode.setCenter(RotaManager.createGridPane(satDate));
+					RotaManager.primaryStage.show();
+					sm.purge();
+					sm.load(strName);
+					for(Shift s : sm.getShifts()) {
+						RotaManager.addShift(s, null);
+					}
+					newStage.close();
+				}
+				catch(DateTimeParseException exc) {
+					Stage errStage = new Stage();
+
+					errStage.setTitle("Date Format Error");
+
+					FlowPane errRootNode = new FlowPane(20,20);
+
+					errRootNode.setAlignment(Pos.CENTER);
+
+					errStage.setScene(new Scene(errRootNode, 350, 150));
+
+					Label errLbl = new Label("ERROR: Incorrect Date Format (YYYY-MM-DD)");
+					errLbl.setPrefWidth(330);
+					errLbl.setAlignment(Pos.CENTER);
+
+					Button btnErrOk = new Button("Ok");
+
+					btnErrOk.setOnAction( (errae) -> {
+						errStage.close();
+						newStage.close();
+						showOpenStage(strName);
+					});
+
+					errRootNode.getChildren().addAll(errLbl, btnErrOk);
+					
+					errStage.show();
+				}
+			}
+		});
+		
+		rootNode.getChildren().addAll(tfDate, btnOk);
+		
+		newStage.show();
 	}
 
 	/**
@@ -356,12 +530,7 @@ public class MenuHandler implements EventHandler<ActionEvent> {
 			String strName = tfName.getText();
 			
 			if(type.compareTo("Open") == 0) {
-				RotaManager.rootNode.setCenter(RotaManager.createGridPane());
-				sm.purge();
-				sm.load(strName);
-				for(Shift s : sm.getShifts()) {
-					RotaManager.addShift(s, null);
-				}
+				showOpenStage(strName);
 			}
 			else {
 				sm.save(strName);
