@@ -83,11 +83,6 @@ public class RotaManager extends Application {
 	private ShiftManager shiftManager;
 	
 	/**
-	 * Stores the dates along the heading of the rota
-	 */
-	static String[] dates;
-	
-	/**
 	 * This method overrides the {@code init()} method in the {@code JavaFX Application} class.
 	 * It instantiates the {@code MenuHandler}, {@code ButtonHandler}, {@code DataManager} and {@code ShiftManager} classes.
 	 * 
@@ -173,8 +168,6 @@ public class RotaManager extends Application {
 		
 		Text sunday = new Text("Sunday");
 		gridNode.add(sunday, 7, 0);
-		
-		dates = new String[]{"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
 		
 		Text morning = new Text("Morning");
 		gridNode.add(morning, 0, 1);
@@ -268,16 +261,15 @@ public class RotaManager extends Application {
 		Text sunday = new Text(satDate.plusDays(1).format(timeFormat));
 		gridNode.add(sunday, 7, 0);
 		
-		DateTimeFormatter printFormat = DateTimeFormatter.ofPattern("E dd MMM");
-		dates = new String[]{
-				satDate.plusDays(2).format(printFormat),
-				satDate.plusDays(3).format(printFormat),
-				satDate.plusDays(4).format(printFormat),
-				satDate.plusDays(5).format(printFormat),
-				satDate.plusDays(6).format(printFormat),
-				satDate.format(printFormat),
-				satDate.plusDays(1).format(printFormat)
-		};
+		ShiftManager.INSTANCE.setHeaders(new String[]{
+				satDate.plusDays(2).format(DateTimeFormatter.ISO_LOCAL_DATE),
+				satDate.plusDays(3).format(DateTimeFormatter.ISO_LOCAL_DATE),
+				satDate.plusDays(4).format(DateTimeFormatter.ISO_LOCAL_DATE),
+				satDate.plusDays(5).format(DateTimeFormatter.ISO_LOCAL_DATE),
+				satDate.plusDays(6).format(DateTimeFormatter.ISO_LOCAL_DATE),
+				satDate.format(DateTimeFormatter.ISO_LOCAL_DATE),
+				satDate.plusDays(1).format(DateTimeFormatter.ISO_LOCAL_DATE)
+		});
 		
 		Text morning = new Text("Morning");
 		gridNode.add(morning, 0, 1);

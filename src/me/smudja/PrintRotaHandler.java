@@ -9,6 +9,9 @@ import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.StringTokenizer;
 
 /**
@@ -74,7 +77,15 @@ public class PrintRotaHandler implements Printable {
 		double cellHeight = height/4;
 		
 		// This array stores the column headings to be used for the current schedule
-		String[] days = RotaManager.dates;
+		String[] days = ShiftManager.INSTANCE.getHeaders();
+		
+		DateTimeFormatter printFormat = DateTimeFormatter.ofPattern("E dd MMM");
+		for(int i = 0; i < days.length; i++) {
+			try {
+				days[i] = LocalDate.parse(days[i]).format(printFormat);
+			}
+			catch(DateTimeParseException exc) {}
+		} 
 		
 		// This loop draws each column heading onto the schedule from left to right
 		for(int i = 1; i < 8; i++) {

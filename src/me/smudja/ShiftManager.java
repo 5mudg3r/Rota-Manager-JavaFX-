@@ -17,6 +17,11 @@ import java.util.ArrayList;
 enum ShiftManager {
 	
 	INSTANCE;
+
+	/**
+	 * A String array storing the headers for the current shift configuration.
+	 */
+	private String[] headers;
 	
 	/**
 	 * An array list storing all the current shifts
@@ -29,6 +34,7 @@ enum ShiftManager {
 	 */
 	private ShiftManager() {
 		shifts = new ArrayList<Shift>();
+		headers = new String[]{"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
 	}
 
 	/**
@@ -41,7 +47,9 @@ enum ShiftManager {
 	@SuppressWarnings("unchecked")
 	public void load(String fromFile) {
 		try (ObjectInputStream inStream = new ObjectInputStream(new FileInputStream(fromFile))) {
-			this.shifts = (ArrayList<Shift>) inStream.readObject();
+			Object[] objects = (Object[]) inStream.readObject();
+			this.shifts = (ArrayList<Shift>) objects[0];
+			this.headers = (String[]) objects[1];
 		}
 		catch (Exception exc) {
 			System.out.println("Unable to load from file: " + fromFile);
@@ -57,7 +65,7 @@ enum ShiftManager {
 	 */
 	public void save(String toFile) {
 		try (ObjectOutputStream outStream = new ObjectOutputStream(new FileOutputStream(toFile))) {
-			outStream.writeObject(shifts);
+			outStream.writeObject(new Object[]{shifts, headers});
 		}
 		catch (IOException exc) {
 			System.out.println("Unable to save to file: " + toFile);
@@ -69,6 +77,25 @@ enum ShiftManager {
 	 */
 	public void purge() {
 		shifts.clear();
+		headers = new String[]{"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
+	}
+	
+	/**
+	 * Getter for headers
+	 * 
+	 * @return headers
+	 */
+	public String[] getHeaders() {
+		return headers;
+	}
+	
+	/**
+	 * Setter for headers
+	 * 
+	 * @param headers the headers to set
+	 */
+	public void setHeaders(String[] headers) {
+		this.headers = headers;
 	}
 	
 	/**
