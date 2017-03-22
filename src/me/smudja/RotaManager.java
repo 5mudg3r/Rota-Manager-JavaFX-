@@ -35,6 +35,8 @@ import javafx.stage.Stage;
  */
 public class RotaManager extends Application {
 	
+	private final static String VERSION = "1.0";
+	
 	/**
 	 * Stores a static reference to the root node of the primary stage.
 	 */
@@ -122,7 +124,7 @@ public class RotaManager extends Application {
 		
 		RotaManager.primaryStage = primaryStage;
 		
-		primaryStage.setTitle("Rota Manager v1.0b");
+		primaryStage.setTitle("Rota Manager v" + VERSION);
 		
 		rootNode = new BorderPane();
 		

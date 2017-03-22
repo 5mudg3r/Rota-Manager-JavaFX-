@@ -1,5 +1,6 @@
 package me.smudja;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -45,7 +46,7 @@ enum ShiftManager {
 	 * @param fromFile	The file to load the shifts from
 	 */	
 	@SuppressWarnings("unchecked")
-	public void load(String fromFile) {
+	public void load(File fromFile) {
 		try (ObjectInputStream inStream = new ObjectInputStream(new FileInputStream(fromFile))) {
 			Object[] objects = (Object[]) inStream.readObject();
 			this.shifts = (ArrayList<Shift>) objects[0];
@@ -61,14 +62,14 @@ enum ShiftManager {
 	 * Note, in general this should save to the same file as {@link me.smudja.ShiftManager#load(String) load()} loads from.
 	 * It handles any exceptions by printing a message to console.
 	 * 
-	 * @param toFile	The file to save to
+	 * @param saveFile	The file to save to
 	 */
-	public void save(String toFile) {
-		try (ObjectOutputStream outStream = new ObjectOutputStream(new FileOutputStream(toFile))) {
+	public void save(File saveFile) {
+		try (ObjectOutputStream outStream = new ObjectOutputStream(new FileOutputStream(saveFile))) {
 			outStream.writeObject(new Object[]{shifts, headers});
 		}
 		catch (IOException exc) {
-			System.out.println("Unable to save to file: " + toFile);
+			System.out.println("Unable to save to file: " + saveFile);
 		}
 	}
 	

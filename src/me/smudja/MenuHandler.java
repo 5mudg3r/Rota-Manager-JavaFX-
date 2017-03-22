@@ -1,8 +1,10 @@
 package me.smudja;
 
+import java.io.File;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.Arrays;
+
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -19,6 +21,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.layout.FlowPane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 /** 
@@ -36,6 +39,11 @@ public class MenuHandler implements EventHandler<ActionEvent> {
 	 *  This will never instantiate the {@code ShiftManager}.
 	 */
 	ShiftManager sm = ShiftManager.INSTANCE;
+	
+	/**
+	 * FileChooser is what we use to display open/save file dialogues
+	 */
+	final FileChooser fileChooser = new FileChooser();
 	
 	/** 
 	 * This method overrides the {@code handle()} method from {@code EventHandler}.
@@ -498,58 +506,32 @@ public class MenuHandler implements EventHandler<ActionEvent> {
 	 * @param type	The type of file operation ("Open" or "Save")
 	 */
 	private void showFileStage(String type) {
-		Stage fileStage = new Stage();
-		
-		fileStage.setTitle(type + " Shift Configuration");
-		
-		FlowPane rootNode = new FlowPane(25,25);
-		
-		rootNode.setAlignment(Pos.CENTER);
-		
-		fileStage.setScene(new Scene(rootNode, 450, 200));
-		
-		Label lblType = new Label(type);
-		
-		Separator separator = new Separator();
-		separator.setPrefWidth(400);
-		
-		rootNode.getChildren().addAll(lblType, separator);
-		
-		Label lblName = new Label("Shift Name");
-		
-		TextField tfName = new TextField();
-		tfName.setPrefWidth(300);
-		
-		Separator separator2 = new Separator();
-		separator2.setPrefWidth(400);
-		separator2.setVisible(false);
-		
-		Button btnType = new Button(type);
-		
-		btnType.setOnAction( (ae) -> {
-			String strName = tfName.getText();
-			
-			if(type.compareTo("Open") == 0) {
-				sm.purge();
-				sm.load(strName);		
-				try {
-					LocalDate satDate =  LocalDate.parse(sm.getHeaders()[5]);
-					RotaManager.rootNode.setCenter(RotaManager.createGridPane(satDate));
-				} catch(DateTimeParseException exc) {}
-				for(Shift s : sm.getShifts()) {
-					RotaManager.addShift(s, null);
-				}
-				RotaManager.primaryStage.show();
+				
+		if(type.compareTo("Open") == 0) {
+			File openFile = fileChooser.showOpenDialog(RotaManager.primaryStage);
+			if(openFile == null) {
+				return;
 			}
-			else {
-				sm.save(strName);
-			}		
-			fileStage.close();
-		});
-		
-		rootNode.getChildren().addAll(lblName, tfName, separator2, btnType);
-		
-		fileStage.show();
+			sm.purge();
+			sm.load(openFile);		
+			try {
+				LocalDate satDate =  LocalDate.parse(sm.getHeaders()[5]);
+				RotaManager.rootNode.setCenter(RotaManager.createGridPane(satDate));
+			} 
+			catch(DateTimeParseException exc) {
+				RotaManager.rootNode.setCenter(RotaManager.createGridPane());
+			}
+			for(Shift s : sm.getShifts()) {
+				RotaManager.addShift(s, null);
+			}
+		}
+		else {
+			File saveFile = fileChooser.showSaveDialog(RotaManager.primaryStage);
+			if(saveFile == null) {
+				return;
+			}
+			sm.save(saveFile);
+		}		
 	}
 
 	/**
