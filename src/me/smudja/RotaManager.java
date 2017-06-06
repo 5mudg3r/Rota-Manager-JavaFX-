@@ -33,6 +33,11 @@ import javafx.stage.Stage;
 public class RotaManager extends Application {
 	
 	/**
+	 * Stores the current version of the program.
+	 */
+	static final String VERSION = "1.1b";
+	
+	/**
 	 * Stores a static reference to the root node of the primary stage.
 	 */
 	static BorderPane rootNode;
@@ -95,6 +100,9 @@ public class RotaManager extends Application {
 		shiftManager = ShiftManager.INSTANCE;
 		MEHandler = new MenuHandler();
 		btnHandler = new ButtonHandler();
+		DateManager.INSTANCE.openFile();
+		DateManager.INSTANCE.readFile();
+		DateManager.INSTANCE.closeFile();
 	}
 	
 	/**
@@ -119,7 +127,7 @@ public class RotaManager extends Application {
 		
 		RotaManager.primaryStage = primaryStage;
 		
-		primaryStage.setTitle("Rota Manager v1.0b");
+		primaryStage.setTitle("Rota Manager v" + VERSION);
 		
 		rootNode = new BorderPane();
 		
@@ -140,30 +148,36 @@ public class RotaManager extends Application {
 	public static Node createGridPane() {
 		
 		GridPane gridNode = new GridPane();
+
 		
 		gridNode.setVgap(10);
 		gridNode.setHgap(10);
 		gridNode.setPadding(new Insets(0, 10, 0, 10));
 		
-		Text monday = new Text("Monday");
+		Text rmversion = new Text("RM v" + VERSION);
+		gridNode.add(rmversion, 0, 0);
+		
+		String[] dates = DateManager.INSTANCE.getDates();
+		
+		Text monday = new Text(dates[0]);
 		gridNode.add(monday, 1, 0);
 		
-		Text tuesday = new Text("Tuesday");
+		Text tuesday = new Text(dates[1]);
 		gridNode.add(tuesday, 2, 0);
 		
-		Text wednesday = new Text("Wednesday");
+		Text wednesday = new Text(dates[2]);
 		gridNode.add(wednesday, 3, 0);
 		
-		Text thursday = new Text("Thursday");
+		Text thursday = new Text(dates[3]);
 		gridNode.add(thursday, 4, 0);
 		
-		Text friday = new Text("Friday");
+		Text friday = new Text(dates[4]);
 		gridNode.add(friday, 5, 0);
 		
-		Text saturday = new Text("Saturday");
+		Text saturday = new Text(dates[5]);
 		gridNode.add(saturday, 6, 0);
 		
-		Text sunday = new Text("Sunday");
+		Text sunday = new Text(dates[6]);
 		gridNode.add(sunday, 7, 0);
 		
 		Text morning = new Text("Morning");
